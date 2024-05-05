@@ -13,7 +13,16 @@
         android:theme="@style/Theme.TimeWise"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.detail.DetailTaskActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.tasks.TasksActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
