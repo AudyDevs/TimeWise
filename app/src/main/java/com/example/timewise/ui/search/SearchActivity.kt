@@ -1,5 +1,6 @@
 package com.example.timewise.ui.search
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +8,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.timewise.R
 import com.example.timewise.databinding.ActivitySearchBinding
+import com.example.timewise.ui.detail.DetailTaskActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
@@ -21,5 +25,24 @@ class SearchActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        initUI()
+    }
+
+    private fun initUI() {
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.ButtonDetail.setOnClickListener {
+            navigateToDetailTaskActivity()
+        }
+        binding.ButtonReturn.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+    }
+
+    private fun navigateToDetailTaskActivity(){
+        val intent = Intent(this, DetailTaskActivity::class.java)
+        startActivity(intent)
     }
 }
