@@ -4,11 +4,9 @@
     <color name="primary">#3F51B5</color>
     <color name="primaryVariant">#AED0EC</color>
     <color name="background">#FFFFFFFF</color>
-    <color name="Surface">#FFFFFFFF</color>
     <color name="error">#E91E1E</color>
     <color name="onPrimary">#FFFFFFFF</color>
     <color name="onBackground">#FF000000</color>
-    <color name="onSurface">#FF000000</color>
     <color name="onError">#FFFFFFFF</color>
 
     <color name="disable">#AAAAAA</color>
