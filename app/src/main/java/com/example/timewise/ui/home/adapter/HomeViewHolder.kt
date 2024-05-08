@@ -9,15 +9,15 @@ import com.example.timewise.domain.model.LabelModel
 class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private val binding = ItemLabelBinding.bind(view)
-    fun render(labelModel: LabelModel, onItemSelected: (LabelModel) -> Unit) {
+    fun render(label: LabelModel, onItemSelected: (LabelModel) -> Unit) {
         val context = binding.cardColor.context
-        val cardColor = ContextCompat.getColor(context, labelModel.color)
+        val cardColor = ContextCompat.getColor(context, label.color)
 
-        binding.image.setImageResource(labelModel.image)
-        binding.tvTitle.text = labelModel.name
-        binding.tvNumberIncomplete.text = labelModel.numberIncomplete.toString()
+        binding.image.setImageResource(label.image)
+        binding.tvTitle.text = label.name
+        binding.tvNumberIncomplete.text = label.numberIncomplete.toString()
         binding.cardColor.setCardBackgroundColor(cardColor)
 
-        binding.cardColor.setOnClickListener { onItemSelected(labelModel) }
+        binding.cardColor.setOnClickListener { onItemSelected(label) }
     }
 }

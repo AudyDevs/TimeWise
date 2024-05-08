@@ -1,4 +1,4 @@
-package com.example.timewise.ui.home
+package com.example.timewise.ui.home.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.timewise.R
 import com.example.timewise.databinding.ActivityMainBinding
 import com.example.timewise.ui.home.adapter.HomeAdapter
+import com.example.timewise.ui.home.viewmodel.HomeViewModel
 import com.example.timewise.ui.search.SearchActivity
 import com.example.timewise.ui.tasks.TasksActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +25,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val mainActivityViewModel by viewModels<MainActivityViewModel>()
+    private val homeViewModel by viewModels<HomeViewModel>()
     private lateinit var homeAdapter: HomeAdapter
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,7 +85,7 @@ class MainActivity : AppCompatActivity() {
     private fun initUIState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mainActivityViewModel.tasks.collect {
+                homeViewModel.labels.collect {
                     homeAdapter.updateList(it)
                 }
             }

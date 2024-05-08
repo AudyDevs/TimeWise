@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.timewise.R
 import com.example.timewise.domain.model.LabelModel
 
-class HomeAdapter(private var labelsList: List<LabelModel> = emptyList(),
-    private val onItemSelected:(LabelModel) -> Unit) :
+class HomeAdapter(
+    private var labelsList: List<LabelModel> = emptyList(),
+    private val onItemSelected: (LabelModel) -> Unit
+) :
     RecyclerView.Adapter<HomeViewHolder>() {
 
     fun updateList(list: List<LabelModel>) {
