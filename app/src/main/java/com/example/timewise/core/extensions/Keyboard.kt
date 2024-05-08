@@ -1,4 +1,4 @@
-package com.example.timewise.core
+package com.example.timewise.core.extensions
 
 import android.app.Activity
 import android.content.Context

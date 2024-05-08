@@ -2,6 +2,12 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.TimeWise" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/onPrimary</item>
+        <item name="colorPrimaryVariant">@color/primaryVariant</item>
+        <item name="colorError">@color/error</item>
+        <item name="colorOnError">@color/onError</item>
+        <item name="background">@color/background</item>
+        <item name="android:windowBackground">@color/background</item>
     </style>
 </resources>

@@ -2,7 +2,7 @@
 <resources>
     <!--App Basics-->
     <color name="primary">#3F51B5</color>
-    <color name="primaryVariant">#2196F3</color>
+    <color name="primaryVariant">#AED0EC</color>
     <color name="background">#FFFFFFFF</color>
     <color name="Surface">#FFFFFFFF</color>
     <color name="error">#E91E1E</color>
@@ -10,6 +10,8 @@
     <color name="onBackground">#FF000000</color>
     <color name="onSurface">#FF000000</color>
     <color name="onError">#FFFFFFFF</color>
+
+    <color name="disable">#AAAAAA</color>
 
     <!--Background color for labels-->
     <color name="backColorYellow">#EFDBA1</color>
