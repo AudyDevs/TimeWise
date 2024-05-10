@@ -15,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.timewise.R
 import com.example.timewise.databinding.ActivityMainBinding
+import com.example.timewise.ui.dialog.DialogLabel
 import com.example.timewise.ui.home.adapter.HomeAdapter
 import com.example.timewise.ui.home.viewmodel.HomeViewModel
 import com.example.timewise.ui.search.SearchActivity
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         initAdapter()
         initListeners()
         initUIState()
+        initViewModel()
     }
 
     private fun initTheme() {
@@ -65,6 +67,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initListeners() {
+        binding.frameAddLabel.setOnClickListener {
+            DialogLabel(
+                context = this,
+                onClickButtonAdd = {
+                    homeViewModel.insertLabel(it)
+                })
+        }
         binding.ButtonSearch.setOnClickListener {
             navigateToSearchActivity()
         }
@@ -90,6 +99,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun initViewModel() {
+        homeViewModel.getLabels()
     }
 
     private fun navigateToSearchActivity() {

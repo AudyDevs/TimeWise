@@ -220,8 +220,40 @@
         android:id="@+id/rvLabels"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:scrollbars="vertical"
+        android:layout_marginBottom="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutTasks"/>
+        app:layout_constraintTop_toBottomOf="@id/layoutTasks"
+        app:layout_constraintBottom_toTopOf="@id/frameAddLabel"/>
+
+    <FrameLayout
+        android:id="@+id/frameAddLabel"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:background="@color/primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rvLabels">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:layout_marginEnd="10dp"
+            android:background="@color/primary"
+            android:contentDescription="@string/cd_add_label"
+            android:src="@drawable/ic_add_label"
+            app:tint="@color/background" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="15dp"
+            android:text="@string/dialogLabelTitle"
+            android:textColor="@color/background"
+            android:textSize="16sp" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

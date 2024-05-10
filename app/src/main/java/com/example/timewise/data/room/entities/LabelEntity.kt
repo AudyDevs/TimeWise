@@ -11,5 +11,6 @@ data class LabelEntity(
     @ColumnInfo(name = "image") val image: Int = 0,
     @ColumnInfo(name = "name") val name: String = "",
     @ColumnInfo(name = "numberIncomplete") val numberIncomplete: Int = 0,
-    @ColumnInfo(name = "color") val color: Int = 0
+    @ColumnInfo(name = "color") val color: Int = 0,
+    @ColumnInfo(name = "backcolor") val backcolor: Int = 0
 )

@@ -5,6 +5,7 @@ data class LabelModel(
     val image: Int,
     val name: String,
     val numberIncomplete: Int,
-    val color: Int
+    val color: Int,
+    val backcolor: Int
 ) {
 }

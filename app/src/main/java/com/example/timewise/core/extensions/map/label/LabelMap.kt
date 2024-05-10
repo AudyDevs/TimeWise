@@ -9,6 +9,7 @@ fun LabelModel.toRoom() = LabelEntity(
     name = name,
     numberIncomplete = numberIncomplete,
     color = color,
+    backcolor = backcolor
 )
 
 fun LabelEntity.toDomain() = LabelModel(
@@ -17,4 +18,5 @@ fun LabelEntity.toDomain() = LabelModel(
     name = name,
     numberIncomplete = numberIncomplete,
     color = color,
+    backcolor = backcolor
 )
