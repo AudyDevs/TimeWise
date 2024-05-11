@@ -35,15 +35,14 @@
             android:orientation="horizontal"
             android:layout_marginHorizontal="5dp">
             <ImageView
-                android:id="@+id/imageEmoji"
+                android:id="@+id/imageIcon"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:src="@drawable/ic_empty_image"
-                android:contentDescription="@string/cd_image"
-                app:tint="@color/disable" />
-            <EditText
+                android:contentDescription="@string/cd_image" />
+              <EditText
                 android:id="@+id/etTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,206 +60,27 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvLabelColors"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="start"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:layout_marginBottom="6dp">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardYellow"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginHorizontal="6dp"
-                    android:backgroundTint="@color/backColorYellow">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:id="@+id/imageYellow"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_check"
-                            android:padding="7dp"
-                            android:visibility="gone"
-                            app:tint="@color/disable"
-                            android:contentDescription="@string/cd_Yellow"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardOrange"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginHorizontal="6dp"
-                    android:backgroundTint="@color/backColorOrange">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:id="@+id/imageOrange"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_check"
-                            android:padding="7dp"
-                            android:visibility="gone"
-                            app:tint="@color/disable"
-                            android:contentDescription="@string/cd_Orange" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardRed"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginHorizontal="6dp"
-                    android:backgroundTint="@color/backColorRed">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:id="@+id/imageRed"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_check"
-                            android:padding="8dp"
-                            android:visibility="gone"
-                            app:tint="@color/disable"
-                            android:contentDescription="@string/cd_Red"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardPurple"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginHorizontal="6dp"
-                    android:backgroundTint="@color/backColorPurple">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:id="@+id/imagePurple"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_check"
-                            android:padding="8dp"
-                            android:visibility="gone"
-                            app:tint="@color/disable"
-                            android:contentDescription="@string/cd_Purple" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardBlue"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginHorizontal="6dp"
-                    android:backgroundTint="@color/backColorBlue">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:id="@+id/imageBlue"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_check"
-                            android:padding="8dp"
-                            android:visibility="gone"
-                            app:tint="@color/disable"
-                            android:contentDescription="@string/cd_Blue"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardLightBlue"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginHorizontal="6dp"
-                    android:backgroundTint="@color/backColorLightBlue">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:id="@+id/imageBrown"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_check"
-                            android:padding="8dp"
-                            android:visibility="gone"
-                            app:tint="@color/disable"
-                            android:contentDescription="@string/cd_LightBlue"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardCyan"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginHorizontal="6dp"
-                    android:backgroundTint="@color/backColorCyan">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:id="@+id/imageCyan"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_check"
-                            android:padding="8dp"
-                            android:visibility="gone"
-                            app:tint="@color/disable"
-                            android:contentDescription="@string/cd_Cyan"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardGreen"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginHorizontal="6dp"
-                    android:backgroundTint="@color/backColorGreen">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:id="@+id/imageGreen"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_check"
-                            android:padding="8dp"
-                            android:visibility="gone"
-                            app:tint="@color/disable"
-                            android:contentDescription="@string/cd_Green"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
+                android:layout_marginBottom="6dp"/>
         </HorizontalScrollView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvLabelImages"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:padding="8dp"
+            android:layout_marginBottom="6dp"
+            android:visibility="gone"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-
             android:orientation="horizontal">
 
             <TextView

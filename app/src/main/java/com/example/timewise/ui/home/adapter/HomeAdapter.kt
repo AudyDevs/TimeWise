@@ -21,9 +21,9 @@ class HomeAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
-        return HomeViewHolder(
+        val layoutInflater =
             LayoutInflater.from(parent.context).inflate(R.layout.item_label, parent, false)
-        )
+        return HomeViewHolder(layoutInflater)
     }
 
     override fun getItemCount(): Int = labelsList.size
