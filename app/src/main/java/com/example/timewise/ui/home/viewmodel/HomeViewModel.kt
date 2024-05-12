@@ -31,8 +31,10 @@ class HomeViewModel @Inject constructor(
 
     fun insertLabel(label: LabelModel) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) { insertLabelUseCase.invoke(label) }
+            withContext(Dispatchers.IO) {
+                insertLabelUseCase.invoke(label)
+                getLabels()
+            }
         }
-        getLabels()
     }
 }

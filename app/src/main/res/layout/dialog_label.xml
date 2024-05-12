@@ -70,14 +70,15 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvLabelImages"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="300dp"
+            android:layout_height="250dp"
             android:scrollbars="vertical"
             android:padding="8dp"
             android:layout_marginBottom="6dp"
             android:visibility="gone"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutAdd"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -88,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
                 android:paddingHorizontal="12dp"
-                android:text="@string/dialgoLabelCancel"
+                android:text="@string/dialogLabelCancel"
                 android:gravity="center"
                 android:textColor="@color/onBackground"
                 app:layout_constraintTop_toTopOf="parent"
@@ -100,7 +101,30 @@
                 android:id="@+id/tvAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
-                android:text="@string/dialgoLabelAdd"
+                android:text="@string/dialogLabelAdd"
+                android:paddingHorizontal="12dp"
+                android:gravity="center"
+                android:textColor="@color/disable"
+                android:enabled="false"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+            </TextView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutRemoveImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvRemoveImage"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:text="@string/dialogLabelRemoveImage"
                 android:paddingHorizontal="12dp"
                 android:gravity="center"
                 android:textColor="@color/primary"

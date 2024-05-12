@@ -13,8 +13,23 @@ class LabelRepositoryImpl @Inject constructor(private val labelDao: LabelDao) : 
         return response.map { it.toDomain() }
     }
 
+    override suspend fun getLabelId(id: Int): LabelModel {
+        val response = labelDao.getLabelID(id)
+        return response.toDomain()
+    }
+
     override suspend fun insertLabel(label: LabelModel) {
         val response = label.toRoom()
         labelDao.insertLabel(response)
+    }
+
+    override suspend fun updateLabel(label: LabelModel) {
+        val response = label.toRoom()
+        labelDao.updateLabel(response)
+    }
+
+    override suspend fun deleteLabel(label: LabelModel) {
+        val response = label.toRoom()
+        labelDao.deleteLabel(response)
     }
 }

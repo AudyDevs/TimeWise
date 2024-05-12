@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewise.R
 import com.example.timewise.domain.model.ColorModel
+import com.example.timewise.ui.dialog.DialogLabel.Companion.INT_NULL
 
 class LabelColorAdapter(
     private var colors: List<ColorModel> = emptyList(),
@@ -12,7 +13,7 @@ class LabelColorAdapter(
 ) :
     RecyclerView.Adapter<LabelColorViewHolder>() {
 
-    private var selectedColorPosition = -1
+    private var selectedColorPosition = INT_NULL
 
     fun updateList(newColors: List<ColorModel>) {
         colors = newColors
@@ -28,7 +29,7 @@ class LabelColorAdapter(
     override fun getItemCount(): Int = colors.size
 
     override fun onBindViewHolder(holder: LabelColorViewHolder, position: Int) {
-        holder.render(colors[position])
+        holder.render(colors[position], selectedColorPosition == position)
         holder.itemView.setOnClickListener {
             selectedColorPosition = holder.adapterPosition
             onItemSelected(colors[position])

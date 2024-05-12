@@ -10,26 +10,28 @@
     <string name="cd_expired">Expired</string>
     <string name="cd_image">Image</string>
 
-    <string name="cd_Yellow">Yellow</string>
-    <string name="cd_Orange">Orange</string>
-    <string name="cd_Red">Red</string>
-    <string name="cd_Purple">Purple</string>
-    <string name="cd_Blue">Blue</string>
-    <string name="cd_LightBlue">LightBlue</string>
-    <string name="cd_Cyan">Cyan</string>
-    <string name="cd_Green">Green</string>
-
     <!--Main Activity text view-->
     <string name="today">Para hoy</string>
     <string name="week">Esta semana</string>
     <string name="later">Más tarde</string>
     <string name="expired">Tareas expiradas</string>
 
-    <!--Dialog label text-->
+    <!--Dialog label-->
     <string name="dialogLabelTitle">Crea una etiqueta</string>
     <string name="dialogLabelHint">Añade un nombre</string>
-    <string name="dialgoLabelCancel">Cancelar</string>
-    <string name="dialgoLabelAdd">Crear etiqueta</string>
+    <string name="dialogLabelCancel">CANCELAR</string>
+    <string name="dialogLabelAdd">CREAR ETIQUETA</string>
+    <string name="dialogLabelRemoveImage">Quitar imagen</string>
+
+    <!--Dialog delete label-->
+    <string name="dialogDeleteTitle">¿Estás seguro?</string>
+    <string name="dialogDeleteMessage">La lista se eliminará permanentemente</string>
+    <string name="dialogDeleteYes">CANCELAR</string>
+    <string name="dialogDeleteNo">ELIMINAR</string>
+
+    <!--Items menu tasks-->
+    <string name="itemEditLabel">Modificar etiqueta</string>
+    <string name="itemDeleteLabel">Eliminar etiqueta</string>
 
     <!--Error-->
     <string name="Error1">It ain\'t the end of world. Check back again shortly.</string>

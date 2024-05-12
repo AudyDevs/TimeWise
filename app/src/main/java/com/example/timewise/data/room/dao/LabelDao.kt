@@ -14,6 +14,9 @@ interface LabelDao {
     @Query("SELECT * FROM label ORDER BY id ASC")
     suspend fun getAllLabels(): List<LabelEntity>
 
+    @Query("SELECT * FROM label WHERE id = :id")
+    suspend fun getLabelID(id: Int): LabelEntity
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLabel(label: LabelEntity)
 
@@ -22,7 +25,4 @@ interface LabelDao {
 
     @Delete
     suspend fun deleteLabel(label: LabelEntity)
-
-    @Query("DELETE FROM label")
-    suspend fun deleteAllLabels()
 }

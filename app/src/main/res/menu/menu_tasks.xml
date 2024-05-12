@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/editLabel"
+        android:icon="@drawable/ic_search"
+        android:iconTint="@color/onPrimary"
+        android:title="@string/itemEditLabel"
+        app:showAsAction="ifRoom"
+        tools:ignore="UnusedAttribute" />
+
+    <item
+        android:id="@+id/deleteLabel"
+        android:icon="@drawable/ic_delete"
+        android:iconTint="@color/onPrimary"
+        android:title="@string/itemDeleteLabel"
+        app:showAsAction="ifRoom"
+        tools:ignore="UnusedAttribute" />
+</menu>

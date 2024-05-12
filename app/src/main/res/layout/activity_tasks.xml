@@ -5,34 +5,24 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".ui.tasks.TasksActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tasks"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/primary"
+        android:minHeight="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/ButtonReturn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="Ir atras"/>
-
-    <Button
-        android:id="@+id/ButtonDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="100dp"
-        android:text="Ir a detail"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu_tasks"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
+        app:title="hola"
+        app:titleTextColor="@color/onPrimary"
+        app:navigationIcon="@drawable/ic_back"
+        app:navigationIconTint="@color/onPrimary"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

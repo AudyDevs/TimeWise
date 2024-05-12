@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.timewise.R
 import com.example.timewise.databinding.ActivityMainBinding
 import com.example.timewise.ui.dialog.DialogLabel
+import com.example.timewise.ui.filtered.FilteredTasksActivity
 import com.example.timewise.ui.home.adapter.HomeAdapter
 import com.example.timewise.ui.home.viewmodel.HomeViewModel
 import com.example.timewise.ui.search.SearchActivity
@@ -47,6 +48,10 @@ class MainActivity : AppCompatActivity() {
         initAdapter()
         initListeners()
         initUIState()
+    }
+
+    override fun onResume() {
+        super.onResume()
         initViewModel()
     }
 
@@ -57,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initAdapter() {
         homeAdapter = HomeAdapter(onItemSelected = {
-            navigateToTasksActivity()
+            navigateToTasksActivity(it.id)
         })
 
         binding.rvLabels.apply {
@@ -78,16 +83,16 @@ class MainActivity : AppCompatActivity() {
             navigateToSearchActivity()
         }
         binding.layoutToday.setOnClickListener {
-            navigateToTasksActivity()
+            navigateToFilteredTasksActivity()
         }
         binding.layoutWeek.setOnClickListener {
-            navigateToTasksActivity()
+            navigateToFilteredTasksActivity()
         }
         binding.layoutLater.setOnClickListener {
-            navigateToTasksActivity()
+            navigateToFilteredTasksActivity()
         }
         binding.layoutExpired.setOnClickListener {
-            navigateToTasksActivity()
+            navigateToFilteredTasksActivity()
         }
     }
 
@@ -110,8 +115,14 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun navigateToTasksActivity() {
+    private fun navigateToFilteredTasksActivity() {
+        val intent = Intent(this, FilteredTasksActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun navigateToTasksActivity(id: Int) {
         val intent = Intent(this, TasksActivity::class.java)
+        intent.putExtra("id", id)
         startActivity(intent)
     }
 }
