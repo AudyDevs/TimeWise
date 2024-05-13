@@ -3,8 +3,8 @@ package com.example.timewise.ui.home.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.timewise.domain.model.LabelModel
-import com.example.timewise.domain.usecase.GetLabelsUseCase
-import com.example.timewise.domain.usecase.InsertLabelUseCase
+import com.example.timewise.domain.usecase.label.GetLabelsUseCase
+import com.example.timewise.domain.usecase.label.InsertLabelUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

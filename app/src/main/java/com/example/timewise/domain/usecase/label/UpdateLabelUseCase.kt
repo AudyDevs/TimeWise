@@ -1,4 +1,4 @@
-package com.example.timewise.domain.usecase
+package com.example.timewise.domain.usecase.label
 
 import com.example.timewise.domain.LabelRepository
 import com.example.timewise.domain.model.LabelModel

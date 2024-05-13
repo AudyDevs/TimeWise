@@ -1,7 +1,7 @@
 package com.example.timewise.data
 
-import com.example.timewise.core.extensions.map.label.toDomain
-import com.example.timewise.core.extensions.map.label.toRoom
+import com.example.timewise.core.extensions.map.toDomain
+import com.example.timewise.core.extensions.map.toRoom
 import com.example.timewise.data.room.dao.LabelDao
 import com.example.timewise.domain.LabelRepository
 import com.example.timewise.domain.model.LabelModel

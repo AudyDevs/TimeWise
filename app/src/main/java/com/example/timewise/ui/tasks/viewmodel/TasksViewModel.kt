@@ -3,9 +3,11 @@ package com.example.timewise.ui.tasks.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.timewise.domain.model.LabelModel
-import com.example.timewise.domain.usecase.DeleteLabelUseCase
-import com.example.timewise.domain.usecase.GetLabelIdUseCase
-import com.example.timewise.domain.usecase.UpdateLabelUseCase
+import com.example.timewise.domain.model.TaskModel
+import com.example.timewise.domain.usecase.label.DeleteLabelUseCase
+import com.example.timewise.domain.usecase.label.GetLabelIdUseCase
+import com.example.timewise.domain.usecase.label.UpdateLabelUseCase
+import com.example.timewise.domain.usecase.task.GetTasksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,10 +21,14 @@ class TasksViewModel @Inject constructor(
     private val getLabelIdUseCase: GetLabelIdUseCase,
     private val updateLabelUseCase: UpdateLabelUseCase,
     private val deleteLabelUseCase: DeleteLabelUseCase,
+    private val getTasksUseCase: GetTasksUseCase
 ) : ViewModel() {
 
     private var _label = MutableStateFlow<LabelModel?>(null)
     var label: StateFlow<LabelModel?> = _label
+
+    private var _tasks = MutableStateFlow<List<TaskModel>>(emptyList())
+    var tasks: StateFlow<List<TaskModel>> = _tasks
 
     fun getLabelID(id: Int) {
         viewModelScope.launch {
@@ -34,6 +40,7 @@ class TasksViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 updateLabelUseCase.invoke(label)
+                getLabelID(label.id)
             }
         }
     }
@@ -43,6 +50,12 @@ class TasksViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 deleteLabelUseCase.invoke(label)
             }
+        }
+    }
+
+    fun getTasks(idLabel: Int){
+        viewModelScope.launch {
+            _tasks.value = withContext(Dispatchers.IO){ getTasksUseCase(idLabel) }
         }
     }
 }

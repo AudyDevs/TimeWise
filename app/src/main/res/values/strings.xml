@@ -3,6 +3,9 @@
 
     <!--Main Activity content description-->
     <string name="cd_search">Search</string>
+    <string name="cd_edit">Edit</string>
+    <string name="cd_delete">Delete</string>
+    <string name="cd_back">Back</string>
     <string name="cd_add_label">AddLabel</string>
     <string name="cd_today">Today</string>
     <string name="cd_week">Week</string>

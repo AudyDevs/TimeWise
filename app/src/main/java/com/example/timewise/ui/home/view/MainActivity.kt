@@ -55,14 +55,18 @@ class MainActivity : AppCompatActivity() {
         initViewModel()
     }
 
+    private fun initViewModel() {
+        homeViewModel.getLabels()
+    }
+
     private fun initTheme() {
         AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         delegate.applyDayNight()
     }
 
     private fun initAdapter() {
-        homeAdapter = HomeAdapter(onItemSelected = {
-            navigateToTasksActivity(it.id)
+        homeAdapter = HomeAdapter(onItemSelected = { labelModel ->
+            navigateToTasksActivity(labelModel.id)
         })
 
         binding.rvLabels.apply {
@@ -75,6 +79,7 @@ class MainActivity : AppCompatActivity() {
         binding.frameAddLabel.setOnClickListener {
             DialogLabel(
                 context = this,
+                labelModel = null,
                 onClickButtonAdd = {
                     homeViewModel.insertLabel(it)
                 })
@@ -99,15 +104,11 @@ class MainActivity : AppCompatActivity() {
     private fun initUIState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                homeViewModel.labels.collect {
-                    homeAdapter.updateList(it)
+                homeViewModel.labels.collect { labelModel ->
+                    homeAdapter.updateList(labelModel)
                 }
             }
         }
-    }
-
-    private fun initViewModel() {
-        homeViewModel.getLabels()
     }
 
     private fun navigateToSearchActivity() {

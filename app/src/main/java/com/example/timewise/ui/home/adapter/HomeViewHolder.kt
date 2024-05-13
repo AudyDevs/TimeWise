@@ -13,11 +13,11 @@ class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         binding.tvId.text = label.id.toString()
         binding.tvTitle.text = label.name
 
-        if (label.numberIncomplete > 0) {
-            binding.tvNumberIncomplete.text = label.numberIncomplete.toString()
-        } else {
-            binding.tvNumberIncomplete.text = null
-        }
+//        if (label.numberIncomplete > 0) {
+//            binding.tvNumberIncomplete.text = label.numberIncomplete.toString()
+//        } else {
+//            binding.tvNumberIncomplete.text = null
+//        }
 
         if (label.image != INT_NULL) {
             binding.image.setImageResource(label.image)
@@ -25,8 +25,8 @@ class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             binding.image.setImageDrawable(null)
         }
 
-        if (label.color != INT_NULL) {
-            binding.cardColor.setCardBackgroundColor(label.color)
+        if (label.textColor != INT_NULL) {
+            binding.cardColor.setCardBackgroundColor(label.textColor)
         } else {
             binding.cardColor.setCardBackgroundColor(null)
         }

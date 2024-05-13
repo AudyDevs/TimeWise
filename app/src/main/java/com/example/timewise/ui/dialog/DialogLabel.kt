@@ -21,6 +21,7 @@ import com.example.timewise.ui.dialog.adapter.LabelImageAdapter
 
 class DialogLabel(
     context: Context,
+    labelModel: LabelModel? = null,
     private var onClickButtonAdd: (LabelModel) -> Unit
 ) :
     Dialog(context) {
@@ -35,22 +36,16 @@ class DialogLabel(
     private var textColor: Int = INT_NULL
     private var backcolor: Int = INT_NULL
     private var image: Int = INT_NULL
+    private var idLabel: Int = 0
 
     init {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setCancelable(false)
         setContentView(binding.root)
-
-        binding.apply {
-            etTitle.requestFocus()
-            etTitle.postDelayed({
-                etTitle.context.showKeyboard(etTitle)
-            }, 0)
-
-        }
         initAdapters()
         initListeners()
         initLists()
+        initModel(labelModel)
         show()
     }
 
@@ -88,11 +83,10 @@ class DialogLabel(
 
             tvAdd.setOnClickListener {
                 val labelModel = LabelModel(
-                    id = 0,
+                    id = idLabel,
                     image = image,
                     name = etTitle.text.toString(),
-                    numberIncomplete = 0,
-                    color = textColor,
+                    textColor = textColor,
                     backcolor = backcolor
                 )
                 onClickButtonAdd(labelModel)
@@ -197,6 +191,35 @@ class DialogLabel(
                 ImageModel.YinYang
             )
         )
+    }
+
+    private fun initModel(labelModel: LabelModel?) {
+        binding.apply {
+            if (labelModel != null) {
+                if (labelModel.id > 0) {
+                    idLabel = labelModel.id
+                    etTitle.setText(labelModel.name)
+
+                    backcolor = labelModel.backcolor
+                    textColor = labelModel.textColor
+                    image = labelModel.image
+
+                    if (image == INT_NULL) {
+                        imageIcon.imageTintList = ColorStateList.valueOf(backcolor)
+                    } else {
+                        imageIcon.setImageResource(image)
+                    }
+                    labelTitle.setTextColor(textColor)
+                    etTitle.backgroundTintList = ColorStateList.valueOf(backcolor)
+                    enableButtonAdd(etTitle.text.toString())
+                }
+            }
+
+            etTitle.requestFocus()
+            etTitle.postDelayed({
+                etTitle.context.showKeyboard(etTitle)
+            }, 0)
+        }
     }
 
     private fun changeUIColor(colorModel: ColorModel) {

@@ -1,20 +1,25 @@
 package com.example.timewise.ui.tasks
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.timewise.R
 import com.example.timewise.databinding.ActivityTasksBinding
 import com.example.timewise.domain.model.LabelModel
 import com.example.timewise.ui.detail.DetailTaskActivity
+import com.example.timewise.ui.dialog.DialogLabel
+import com.example.timewise.ui.tasks.adapter.TasksAdapter
 import com.example.timewise.ui.tasks.viewmodel.TasksViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -23,6 +28,7 @@ import kotlinx.coroutines.launch
 class TasksActivity : AppCompatActivity() {
 
     private val tasksViewModel by viewModels<TasksViewModel>()
+    private lateinit var tasksAdapter: TasksAdapter
     private lateinit var binding: ActivityTasksBinding
     private var idLabel: Int = 0
     private lateinit var labelModel: LabelModel
@@ -45,7 +51,15 @@ class TasksActivity : AppCompatActivity() {
         initAdapter()
         initListeners()
         initUIState()
+    }
+
+    override fun onResume() {
+        super.onResume()
         initViewModel()
+    }
+
+    private fun initViewModel() {
+        tasksViewModel.getLabelID(idLabel)
     }
 
     private fun initIntents() {
@@ -53,35 +67,22 @@ class TasksActivity : AppCompatActivity() {
     }
 
     private fun initAdapter() {
+        tasksAdapter = TasksAdapter(onItemSelected = { tasksModel ->
+            navigateToDetailTaskActivity(tasksModel.id)
+        })
 
+        binding.rvTasks.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = tasksAdapter
+        }
     }
 
     private fun initListeners() {
-        binding.toolbar.setOnMenuItemClickListener { menu ->
-            when (menu.itemId) {
-                R.id.editLabel -> {}
-                R.id.deleteLabel -> showDeleteDialog()
-            }
-            true
+        binding.apply {
+            btnEdit.setOnClickListener { showDialogEdit() }
+            btnDelete.setOnClickListener { showDialogDelete() }
+            btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         }
-        binding.toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
-    }
-
-    private fun showDeleteDialog() {
-        AlertDialog.Builder(this)
-            .setTitle(R.string.dialogDeleteTitle)
-            .setMessage(R.string.dialogDeleteMessage)
-            .setCancelable(false)
-            .setPositiveButton(
-                R.string.dialogDeleteNo
-            ) { _, _ -> deleteLabel() }
-            .setNegativeButton(R.string.dialogDeleteYes) { _, _ -> }
-            .show()
-    }
-
-    private fun deleteLabel() {
-        tasksViewModel.deleteLabel(labelModel)
-        onBackPressedDispatcher.onBackPressed()
     }
 
     private fun initUIState() {
@@ -90,20 +91,71 @@ class TasksActivity : AppCompatActivity() {
                 tasksViewModel.label.collect {
                     if (it != null) {
                         labelModel = it
-                        binding.toolbar.title = labelModel.name
-                        // cuando tengamos valor cargamos la lista del recyclerVIEW, a demás tambein cargaremos los colores de la UI.
+                        binding.etName.text = labelModel.name
+                        changeUIColor()
+                        tasksViewModel.getTasks(labelModel.id)
                     }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                tasksViewModel.tasks.collect { taskModel ->
+                    tasksAdapter.updateList(taskModel)
                 }
             }
         }
     }
 
-    private fun initViewModel() {
-        tasksViewModel.getLabelID(idLabel)
+    private fun changeUIColor() {
+        binding.apply {
+            main.setBackgroundColor(labelModel.backcolor)
+            toolbar.setBackgroundColor(labelModel.backcolor)
+            etName.setTextColor(labelModel.textColor)
+            btnEdit.imageTintList = ColorStateList.valueOf(labelModel.textColor)
+            btnEdit.setBackgroundColor(labelModel.backcolor)
+            btnDelete.imageTintList = ColorStateList.valueOf(labelModel.textColor)
+            btnDelete.setBackgroundColor(labelModel.backcolor)
+            btnBack.imageTintList = ColorStateList.valueOf(labelModel.textColor)
+            btnBack.setBackgroundColor(labelModel.backcolor)
+            fbAdd.imageTintList = ColorStateList.valueOf(labelModel.backcolor)
+            fbAdd.backgroundTintList = ColorStateList.valueOf(labelModel.textColor)
+        }
     }
 
-    private fun navigateToDetailTaskActivity() {
+    private fun showDialogEdit() {
+        DialogLabel(
+            context = this,
+            labelModel = labelModel,
+            onClickButtonAdd = {
+                tasksViewModel.updateLabel(it)
+            })
+    }
+
+    private fun showDialogDelete() {
+        val builder = AlertDialog.Builder(this)
+            .setTitle(R.string.dialogDeleteTitle)
+            .setMessage(R.string.dialogDeleteMessage)
+            .setCancelable(false)
+            .setPositiveButton(
+                R.string.dialogDeleteNo
+            ) { _, _ -> deleteLabel() }
+            .setNegativeButton(R.string.dialogDeleteYes) { _, _ -> }
+            .create()
+        builder.show()
+        builder.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setTextColor(ContextCompat.getColor(this, R.color.error))
+    }
+
+    private fun deleteLabel() {
+        tasksViewModel.deleteLabel(labelModel)
+        onBackPressedDispatcher.onBackPressed()
+    }
+
+    private fun navigateToDetailTaskActivity(id: Int) {
         val intent = Intent(this, DetailTaskActivity::class.java)
+        intent.putExtra("id", id)
         startActivity(intent)
     }
 }

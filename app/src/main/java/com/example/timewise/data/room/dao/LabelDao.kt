@@ -11,10 +11,10 @@ import com.example.timewise.data.room.entities.LabelEntity
 @Dao
 interface LabelDao {
 
-    @Query("SELECT * FROM label ORDER BY id ASC")
+    @Query("SELECT * FROM labels ORDER BY id ASC")
     suspend fun getAllLabels(): List<LabelEntity>
 
-    @Query("SELECT * FROM label WHERE id = :id")
+    @Query("SELECT * FROM labels WHERE id = :id")
     suspend fun getLabelID(id: Int): LabelEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
