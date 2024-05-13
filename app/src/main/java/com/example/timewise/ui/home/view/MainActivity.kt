@@ -20,7 +20,7 @@ import com.example.timewise.ui.filtered.FilteredTasksActivity
 import com.example.timewise.ui.home.adapter.HomeAdapter
 import com.example.timewise.ui.home.viewmodel.HomeViewModel
 import com.example.timewise.ui.search.SearchActivity
-import com.example.timewise.ui.tasks.TasksActivity
+import com.example.timewise.ui.tasks.view.TasksActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

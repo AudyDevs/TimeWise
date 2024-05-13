@@ -10,27 +10,29 @@ class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private val binding = ItemLabelBinding.bind(view)
     fun render(label: LabelModel, onItemSelected: (LabelModel) -> Unit) {
-        binding.tvId.text = label.id.toString()
-        binding.tvTitle.text = label.name
+        binding.apply {
+            tvId.text = label.id.toString()
+            tvTitle.text = label.name
 
 //        if (label.numberIncomplete > 0) {
-//            binding.tvNumberIncomplete.text = label.numberIncomplete.toString()
+//            tvNumberIncomplete.text = label.numberIncomplete.toString()
 //        } else {
-//            binding.tvNumberIncomplete.text = null
+//            tvNumberIncomplete.text = null
 //        }
 
-        if (label.image != INT_NULL) {
-            binding.image.setImageResource(label.image)
-        } else {
-            binding.image.setImageDrawable(null)
-        }
+            if (label.image != INT_NULL) {
+                image.setImageResource(label.image)
+            } else {
+                image.setImageDrawable(null)
+            }
 
-        if (label.textColor != INT_NULL) {
-            binding.cardColor.setCardBackgroundColor(label.textColor)
-        } else {
-            binding.cardColor.setCardBackgroundColor(null)
-        }
+            if (label.textColor != INT_NULL) {
+                cardColor.setCardBackgroundColor(label.textColor)
+            } else {
+                cardColor.setCardBackgroundColor(null)
+            }
 
-        binding.cardColor.setOnClickListener { onItemSelected(label) }
+            cardColor.setOnClickListener { onItemSelected(label) }
+        }
     }
 }

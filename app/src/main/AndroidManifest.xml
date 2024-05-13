@@ -24,7 +24,7 @@
             android:name=".ui.search.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.tasks.TasksActivity"
+            android:name=".ui.tasks.view.TasksActivity"
             android:exported="false" />
         <activity
             android:name=".ui.home.view.MainActivity"

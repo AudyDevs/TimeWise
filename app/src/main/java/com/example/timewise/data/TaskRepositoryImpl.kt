@@ -28,6 +28,14 @@ class TaskRepositoryImpl @Inject constructor(private val taskDao: TaskDao) : Tas
         taskDao.updateTask(response)
     }
 
+    override suspend fun updateTaskFinished(id: Int, idLabel: Int, isFinished: Boolean) {
+        taskDao.updateTaskFinished(id, idLabel, isFinished)
+    }
+
+    override suspend fun updateTaskFavourite(id: Int, idLabel: Int, isFavourite: Boolean) {
+        taskDao.updateTaskFavourite(id, idLabel, isFavourite)
+    }
+
     override suspend fun deleteTask(task: TaskModel) {
         val response = task.toRoom()
         taskDao.deleteTask(response)

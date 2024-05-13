@@ -4,9 +4,9 @@ data class TaskModel(
     val id: Int,
     val idLabel: Int,
     val name: String,
-    val isFinished: Boolean,
+    var isFinished: Boolean,
     val dateFinished: String,
-    val isFavourite: Boolean,
+    var isFavourite: Boolean,
     val details: String,
     val dateCreation: String
 )

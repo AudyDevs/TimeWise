@@ -3,16 +3,16 @@ package com.example.timewise.ui.tasks.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.recyclerview.widget.RecyclerView
 import com.example.timewise.R
 import com.example.timewise.domain.model.TaskModel
 
-class TasksAdapter(
+class TasksAdapterFinished(
     private var tasksList: List<TaskModel> = emptyList(),
     private val onItemSelected: (TaskModel) -> Unit,
     private val onUpdateFinished: (Int, Boolean) -> Unit,
     private val onUpdateFavourite: (Int, Boolean) -> Unit
-) : Adapter<TasksViewHolder>() {
+) : RecyclerView.Adapter<TasksViewHolder>() {
 
     fun updateList(list: List<TaskModel>) {
         val diff = TasksDiffUtil(tasksList, list)
@@ -30,11 +30,6 @@ class TasksAdapter(
     override fun getItemCount(): Int = tasksList.size
 
     override fun onBindViewHolder(holder: TasksViewHolder, position: Int) {
-        holder.render(
-            tasksList[position],
-            onItemSelected,
-            onUpdateFinished,
-            onUpdateFavourite
-        )
+        holder.render(tasksList[position], onItemSelected, onUpdateFinished, onUpdateFavourite)
     }
 }

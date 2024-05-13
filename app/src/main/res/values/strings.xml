@@ -19,6 +19,9 @@
     <string name="later">Más tarde</string>
     <string name="expired">Tareas expiradas</string>
 
+    <!--Task Activity text view-->
+    <string name="completed">Completados</string>
+
     <!--Dialog label-->
     <string name="dialogLabelTitle">Crea una etiqueta</string>
     <string name="dialogLabelHint">Añade un nombre</string>
@@ -31,6 +34,9 @@
     <string name="dialogDeleteMessage">La lista se eliminará permanentemente</string>
     <string name="dialogDeleteYes">CANCELAR</string>
     <string name="dialogDeleteNo">ELIMINAR</string>
+
+    <!--Dialog add task-->
+    <string name="dialogAddTaskNameHint">Agrega una tarea</string>
 
     <!--Items menu tasks-->
     <string name="itemEditLabel">Modificar etiqueta</string>

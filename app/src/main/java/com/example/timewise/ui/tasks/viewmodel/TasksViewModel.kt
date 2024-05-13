@@ -8,6 +8,9 @@ import com.example.timewise.domain.usecase.label.DeleteLabelUseCase
 import com.example.timewise.domain.usecase.label.GetLabelIdUseCase
 import com.example.timewise.domain.usecase.label.UpdateLabelUseCase
 import com.example.timewise.domain.usecase.task.GetTasksUseCase
+import com.example.timewise.domain.usecase.task.InsertTaskUseCase
+import com.example.timewise.domain.usecase.task.UpdateTaskFavouriteUseCase
+import com.example.timewise.domain.usecase.task.UpdateTaskFinishedUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +24,10 @@ class TasksViewModel @Inject constructor(
     private val getLabelIdUseCase: GetLabelIdUseCase,
     private val updateLabelUseCase: UpdateLabelUseCase,
     private val deleteLabelUseCase: DeleteLabelUseCase,
-    private val getTasksUseCase: GetTasksUseCase
+    private val getTasksUseCase: GetTasksUseCase,
+    private val insertTaskUseCase: InsertTaskUseCase,
+    private val updateTaskFinishedUseCase: UpdateTaskFinishedUseCase,
+    private val updateTaskFavouriteUseCase: UpdateTaskFavouriteUseCase
 ) : ViewModel() {
 
     private var _label = MutableStateFlow<LabelModel?>(null)
@@ -53,9 +59,36 @@ class TasksViewModel @Inject constructor(
         }
     }
 
-    fun getTasks(idLabel: Int){
+    fun getTasks(idLabel: Int) {
         viewModelScope.launch {
-            _tasks.value = withContext(Dispatchers.IO){ getTasksUseCase(idLabel) }
+            _tasks.value = withContext(Dispatchers.IO) { getTasksUseCase(idLabel) }
+        }
+    }
+
+    fun insertTask(task: TaskModel) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                insertTaskUseCase.invoke(task)
+                getTasks(task.idLabel)
+            }
+        }
+    }
+
+    fun updateTaskFinished(id: Int, idLabel: Int, isFinished: Boolean) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                updateTaskFinishedUseCase.invoke(id, idLabel, isFinished)
+                getTasks(idLabel)
+            }
+        }
+    }
+
+    fun updateTaskFavourite(id: Int, idLabel: Int, isFavourite: Boolean) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                updateTaskFavouriteUseCase.invoke(id, idLabel, isFavourite)
+                getTasks(idLabel)
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
-package com.example.timewise.ui.tasks
+package com.example.timewise.ui.tasks.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -17,9 +19,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.timewise.R
 import com.example.timewise.databinding.ActivityTasksBinding
 import com.example.timewise.domain.model.LabelModel
+import com.example.timewise.domain.model.TaskModel
 import com.example.timewise.ui.detail.DetailTaskActivity
+import com.example.timewise.ui.dialog.DialogAddTask
 import com.example.timewise.ui.dialog.DialogLabel
 import com.example.timewise.ui.tasks.adapter.TasksAdapter
+import com.example.timewise.ui.tasks.adapter.TasksAdapterFinished
 import com.example.timewise.ui.tasks.viewmodel.TasksViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -29,6 +34,7 @@ class TasksActivity : AppCompatActivity() {
 
     private val tasksViewModel by viewModels<TasksViewModel>()
     private lateinit var tasksAdapter: TasksAdapter
+    private lateinit var tasksAdapterFinished: TasksAdapterFinished
     private lateinit var binding: ActivityTasksBinding
     private var idLabel: Int = 0
     private lateinit var labelModel: LabelModel
@@ -67,13 +73,34 @@ class TasksActivity : AppCompatActivity() {
     }
 
     private fun initAdapter() {
-        tasksAdapter = TasksAdapter(onItemSelected = { tasksModel ->
-            navigateToDetailTaskActivity(tasksModel.id)
-        })
+        tasksAdapter = TasksAdapter(
+            onItemSelected = { tasksModel ->
+                navigateToDetailTaskActivity(tasksModel.id)
+            },
+            onUpdateFinished = { id, isFinished ->
+                tasksViewModel.updateTaskFinished(id, idLabel, isFinished)
+            }, onUpdateFavourite = { id, isFavourite ->
+                tasksViewModel.updateTaskFavourite(id, idLabel, isFavourite)
+            })
+
+        tasksAdapterFinished = TasksAdapterFinished(
+            onItemSelected = { tasksModel ->
+                navigateToDetailTaskActivity(tasksModel.id)
+            },
+            onUpdateFinished = { id, isFinished ->
+                tasksViewModel.updateTaskFinished(id, idLabel, isFinished)
+            }, onUpdateFavourite = { id, isFavourite ->
+                tasksViewModel.updateTaskFavourite(id, idLabel, isFavourite)
+            })
 
         binding.rvTasks.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = tasksAdapter
+        }
+
+        binding.rvTasksFinished.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = tasksAdapterFinished
         }
     }
 
@@ -82,6 +109,18 @@ class TasksActivity : AppCompatActivity() {
             btnEdit.setOnClickListener { showDialogEdit() }
             btnDelete.setOnClickListener { showDialogDelete() }
             btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+            fbAdd.setOnClickListener {
+                DialogAddTask(
+                    context = this@TasksActivity,
+                    labelModel = labelModel,
+                    onClickButtonAdd = { taskModel ->
+                        tasksViewModel.insertTask(taskModel)
+                    }
+                )
+            }
+            layoutCompleted.setOnClickListener {
+                showListFinished()
+            }
         }
     }
 
@@ -102,9 +141,24 @@ class TasksActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 tasksViewModel.tasks.collect { taskModel ->
-                    tasksAdapter.updateList(taskModel)
+                    val responseNoFinished = taskModel.filter { !it.isFinished }
+                    val responseFinished = taskModel.filter { it.isFinished }
+                    tasksAdapter.updateList(responseNoFinished)
+                    tasksAdapterFinished.updateList(responseFinished)
+                    showCompleted(responseFinished)
                 }
             }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun showCompleted(responseFinished: List<TaskModel>) {
+        if (responseFinished.isNotEmpty()) {
+            binding.tvCompleted.text =
+                getString(R.string.completed) + " " + responseFinished.size.toString()
+            binding.layoutCompleted.isVisible = true
+        } else {
+            binding.layoutCompleted.isVisible = false
         }
     }
 
@@ -121,6 +175,8 @@ class TasksActivity : AppCompatActivity() {
             btnBack.setBackgroundColor(labelModel.backcolor)
             fbAdd.imageTintList = ColorStateList.valueOf(labelModel.backcolor)
             fbAdd.backgroundTintList = ColorStateList.valueOf(labelModel.textColor)
+            imageCompleted.imageTintList = ColorStateList.valueOf(labelModel.textColor)
+            tvCompleted.setTextColor(labelModel.textColor)
         }
     }
 
@@ -146,6 +202,18 @@ class TasksActivity : AppCompatActivity() {
         builder.show()
         builder.getButton(AlertDialog.BUTTON_POSITIVE)
             .setTextColor(ContextCompat.getColor(this, R.color.error))
+    }
+
+    private fun showListFinished() {
+        binding.apply {
+            if (rvTasksFinished.isVisible) {
+                rvTasksFinished.isVisible = false
+                imageCompleted.setImageResource(R.drawable.ic_arrow_right)
+            } else {
+                rvTasksFinished.isVisible = true
+                imageCompleted.setImageResource(R.drawable.ic_arrow_down)
+            }
+        }
     }
 
     private fun deleteLabel() {

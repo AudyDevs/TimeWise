@@ -11,5 +11,9 @@ interface TaskRepository {
 
     suspend fun updateTask(task: TaskModel)
 
+    suspend fun updateTaskFinished(id: Int, idLabel: Int, isFinished: Boolean)
+
+    suspend fun updateTaskFavourite(id: Int, idLabel: Int, isFavourite: Boolean)
+
     suspend fun deleteTask(task: TaskModel)
 }

@@ -45,7 +45,7 @@ class DialogLabel(
         initAdapters()
         initListeners()
         initLists()
-        initModel(labelModel)
+        initDialogValues(labelModel)
         show()
     }
 
@@ -193,7 +193,7 @@ class DialogLabel(
         )
     }
 
-    private fun initModel(labelModel: LabelModel?) {
+    private fun initDialogValues(labelModel: LabelModel?) {
         binding.apply {
             if (labelModel != null) {
                 if (labelModel.id > 0) {
@@ -255,7 +255,7 @@ class DialogLabel(
 
     private fun enableButtonAdd(text: String) {
         binding.apply {
-            tvAdd.isEnabled = (text.toString().isNotEmpty()) and (textColor != INT_NULL)
+            tvAdd.isEnabled = (text.isNotEmpty()) and (textColor != INT_NULL)
             if (tvAdd.isEnabled) {
                 tvAdd.setTextColor(textColor)
             } else {
