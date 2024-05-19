@@ -7,7 +7,10 @@ import com.example.timewise.domain.LabelRepository
 import com.example.timewise.domain.model.LabelModel
 import javax.inject.Inject
 
-class LabelRepositoryImpl @Inject constructor(private val labelDao: LabelDao) : LabelRepository {
+class LabelRepositoryImpl @Inject constructor(
+    private val labelDao: LabelDao
+) : LabelRepository {
+
     override suspend fun getLabels(): List<LabelModel> {
         val response = labelDao.getAllLabels()
         return response.map { it.toDomain() }

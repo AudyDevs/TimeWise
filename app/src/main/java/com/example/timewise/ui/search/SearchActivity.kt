@@ -8,7 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.timewise.R
 import com.example.timewise.databinding.ActivitySearchBinding
-import com.example.timewise.ui.detail.DetailTaskActivity
+import com.example.timewise.ui.detail.view.DetailTaskActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

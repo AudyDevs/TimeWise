@@ -9,7 +9,7 @@
     <color name="onBackground">#FF000000</color>
     <color name="onError">#FFFFFFFF</color>
 
-    <color name="disable">#AAAAAA</color>
+    <color name="disable">#9C9B9B</color>
 
     <!--Background color for labels-->
     <color name="backColorYellow">#EFDBA1</color>

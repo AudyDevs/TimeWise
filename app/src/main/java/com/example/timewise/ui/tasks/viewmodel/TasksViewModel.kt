@@ -7,6 +7,7 @@ import com.example.timewise.domain.model.TaskModel
 import com.example.timewise.domain.usecase.label.DeleteLabelUseCase
 import com.example.timewise.domain.usecase.label.GetLabelIdUseCase
 import com.example.timewise.domain.usecase.label.UpdateLabelUseCase
+import com.example.timewise.domain.usecase.task.DeleteAllTasksUseCase
 import com.example.timewise.domain.usecase.task.GetTasksUseCase
 import com.example.timewise.domain.usecase.task.InsertTaskUseCase
 import com.example.timewise.domain.usecase.task.UpdateTaskFavouriteUseCase
@@ -27,7 +28,8 @@ class TasksViewModel @Inject constructor(
     private val getTasksUseCase: GetTasksUseCase,
     private val insertTaskUseCase: InsertTaskUseCase,
     private val updateTaskFinishedUseCase: UpdateTaskFinishedUseCase,
-    private val updateTaskFavouriteUseCase: UpdateTaskFavouriteUseCase
+    private val updateTaskFavouriteUseCase: UpdateTaskFavouriteUseCase,
+    private val deleteAllTasksUseCase: DeleteAllTasksUseCase
 ) : ViewModel() {
 
     private var _label = MutableStateFlow<LabelModel?>(null)
@@ -55,6 +57,7 @@ class TasksViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 deleteLabelUseCase.invoke(label)
+                deleteAllTasksUseCase.invoke(label.id)
             }
         }
     }

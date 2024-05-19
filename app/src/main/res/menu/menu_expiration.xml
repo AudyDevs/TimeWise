@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuExpirationToday"
+        android:title="@string/menuExpirationToday" />
+    <item
+        android:id="@+id/menuExpirationTomorrow"
+        android:title="@string/menuExpirationTomorrow" />
+    <item
+        android:id="@+id/menuExpirationLater"
+        android:title="@string/menuExpirationLater" />
+    <item
+        android:id="@+id/menuExpirationPickDate"
+        android:title="@string/menuExpirationPickDate" />
+</menu>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuReminderToday"
+        android:title="@string/menuReminderToday" />
+    <item
+        android:id="@+id/menuReminderTomorrow"
+        android:title="@string/menuReminderTomorrow" />
+    <item
+        android:id="@+id/menuReminderLater"
+        android:title="@string/menuReminderLater" />
+    <item
+        android:id="@+id/menuReminderPickDate"
+        android:title="@string/menuReminderPickDate" />
+</menu>

@@ -5,24 +5,269 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.detail.DetailTaskActivity">
+    android:background="@color/background"
+    tools:context=".ui.tasks.view.TasksActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/primary"
+            android:contentDescription="@string/cd_delete"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/onPrimary" />
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/primary"
+            android:contentDescription="@string/cd_back"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/onPrimary" />
+
+        <TextView
+            android:id="@+id/etNameLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="24dp"
+            android:fontFamily="@font/pacifico"
+            android:text="@string/app_name"
+            android:textColor="@color/onPrimary"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnBack"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnDelete"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/disable"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutNameTask"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/onPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/separator">
+
+        <ImageButton
+            android:id="@+id/btnFavourite"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/onPrimary"
+            android:contentDescription="@string/cd_delete"
+            android:src="@drawable/ic_star_unchecked"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/primary" />
+
+        <ImageButton
+            android:id="@+id/btnFinished"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/onPrimary"
+            android:contentDescription="@string/cd_back"
+            android:src="@drawable/ic_circle_unchecked"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/primary" />
+
+        <TextView
+            android:id="@+id/etNameTask"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:text="@string/hintNameTask"
+            android:textColor="@color/primary"
+            android:fontFamily="@font/pacifico"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnFinished"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnFavourite"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutExpirationDate"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="12dp"
+        android:hint="@string/hintExpiredTask"
+        app:boxStrokeColor="@color/primary"
+        app:hintTextColor="@color/primary"
+        app:hintEnabled="true"
+        app:expandedHintEnabled="false"
+        app:endIconCheckable="true"
+        app:endIconDrawable="@drawable/ic_clear"
+        app:endIconMode="custom"
+        app:endIconTint="@color/primary"
+        app:startIconCheckable="false"
+        app:startIconDrawable="@drawable/ic_calendar_later"
+        app:startIconTint="@color/primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutNameTask">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etExpirationDate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:imeOptions="actionNext"
+            android:backgroundTint="@color/background"
+            android:backgroundTintMode="add"
+            android:inputType="datetime"
+            android:singleLine="true"
+            android:focusable="false"
+            android:textColor="@color/onBackground" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/menuExpiration"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="50dp"
+        app:layout_constraintStart_toStartOf="@id/layoutExpirationDate"
+        app:layout_constraintEnd_toEndOf="@id/layoutExpirationDate"
+        app:layout_constraintTop_toTopOf="@id/layoutExpirationDate"
+        app:layout_constraintBottom_toBottomOf="@id/layoutExpirationDate" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutReminderDate"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="detail"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="12dp"
+        android:hint="@string/hintReminderTask"
+        app:boxStrokeColor="@color/primary"
+        app:hintTextColor="@color/primary"
+        app:hintEnabled="true"
+        app:expandedHintEnabled="false"
+        app:endIconCheckable="true"
+        app:endIconDrawable="@drawable/ic_clear"
+        app:endIconMode="custom"
+        app:endIconTint="@color/primary"
+        app:startIconCheckable="false"
+        app:startIconDrawable="@drawable/ic_alarm_enable"
+        app:startIconTint="@color/primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/layoutExpirationDate">
 
-    <Button
-        android:id="@+id/ButtonReturn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etReminderDate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:imeOptions="actionNext"
+            android:backgroundTint="@color/background"
+            android:backgroundTintMode="add"
+            android:inputType="datetime"
+            android:singleLine="true"
+            android:focusable="false"
+            android:textColor="@color/onBackground" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/menuReminder"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="50dp"
+        app:layout_constraintStart_toStartOf="@id/layoutReminderDate"
+        app:layout_constraintEnd_toEndOf="@id/layoutReminderDate"
+        app:layout_constraintTop_toTopOf="@id/layoutReminderDate"
+        app:layout_constraintBottom_toBottomOf="@id/layoutReminderDate" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutDetails"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="12dp"
+        android:hint="@string/hintDetailsTask"
+        app:boxStrokeColor="@color/primary"
+        app:hintTextColor="@color/primary"
+        app:hintEnabled="true"
+        app:expandedHintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="Ir atras"/>
+        app:layout_constraintTop_toBottomOf="@id/layoutReminderDate"
+        app:layout_constraintBottom_toTopOf="@id/layoutCreateDate">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etDetails"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/background"
+            android:backgroundTintMode="add"
+            android:gravity="start"
+            android:singleLine="false"
+            android:textColor="@color/onBackground" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutCreateDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/etCreateDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/pacifico"
+            android:text="@string/creationDate"
+            android:textColor="@color/onPrimary"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fbAdd"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="@string/cd_image"
+        android:src="@drawable/ic_check"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

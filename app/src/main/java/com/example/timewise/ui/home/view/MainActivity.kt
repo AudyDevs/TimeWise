@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViewModel() {
         homeViewModel.getLabels()
+        homeViewModel.getNumberTasks()
     }
 
     private fun initTheme() {
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initAdapter() {
         homeAdapter = HomeAdapter(onItemSelected = { labelModel ->
-            navigateToTasksActivity(labelModel.id)
+            navigateToTasksActivity(labelModel.id, labelModel.textColor)
         })
 
         binding.rvLabels.apply {
@@ -109,6 +110,54 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                homeViewModel.tasksToday.collect { numberTasksToday ->
+                    if (numberTasksToday > 0) {
+                        binding.numberToday.text = numberTasksToday.toString()
+                    } else {
+                        binding.numberToday.text = ""
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                homeViewModel.tasksWeek.collect { numberTasksWeek ->
+                    if (numberTasksWeek > 0) {
+                        binding.numberWeek.text = numberTasksWeek.toString()
+                    } else {
+                        binding.numberWeek.text = ""
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                homeViewModel.tasksLater.collect { numberTasksLater ->
+                    if (numberTasksLater > 0) {
+                        binding.numberLater.text = numberTasksLater.toString()
+                    } else {
+                        binding.numberLater.text = ""
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                homeViewModel.tasksExpired.collect { numberTasksExpired ->
+                    if (numberTasksExpired > 0) {
+                        binding.numberExpired.text = numberTasksExpired.toString()
+                    } else {
+                        binding.numberExpired.text = ""
+                    }
+                }
+            }
+        }
     }
 
     private fun navigateToSearchActivity() {
@@ -121,9 +170,10 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun navigateToTasksActivity(id: Int) {
+    private fun navigateToTasksActivity(id: Int, textColor: Int) {
         val intent = Intent(this, TasksActivity::class.java)
         intent.putExtra("id", id)
+        intent.putExtra("textColor", textColor)
         startActivity(intent)
     }
 }

@@ -11,8 +11,11 @@ import com.example.timewise.data.room.entities.TaskEntity
 @Dao
 interface TaskDao {
 
+    @Query("SELECT * FROM tasks")
+    suspend fun getAllTasks(): List<TaskEntity>
+
     @Query("SELECT * FROM tasks WHERE idLabel = :idLabel ORDER BY id ASC")
-    suspend fun getAllTasks(idLabel: Int): List<TaskEntity>
+    suspend fun getLabelTasks(idLabel: Int): List<TaskEntity>
 
     @Query("SELECT * FROM tasks WHERE idLabel = :idLabel AND id = :id")
     suspend fun getTaskID(id: Int, idLabel: Int): TaskEntity
@@ -31,4 +34,7 @@ interface TaskDao {
 
     @Delete
     suspend fun deleteTask(task: TaskEntity)
+
+    @Query("DELETE FROM tasks WHERE idLabel = :idLabel")
+    suspend fun deleteAllTasks(idLabel: Int): Int
 }

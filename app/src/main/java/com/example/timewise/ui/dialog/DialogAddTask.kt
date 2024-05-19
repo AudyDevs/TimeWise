@@ -66,20 +66,22 @@ class DialogAddTask(
     private fun saveModelValues() {
         if (binding.etName.text.isNotEmpty()) {
             val isFinished: Boolean = binding.btnCheck.tag == R.drawable.ic_circle_checked
-            val dateFinished = if (isFinished) {
-                Time.CurrentDate().toString()
+            val finishedDate = if (isFinished) {
+                Time.currentDate()
             } else {
-                ""
+                null
             }
             val taskModel = TaskModel(
                 id = 0,
                 idLabel = labelModel.id,
                 name = binding.etName.text.toString(),
                 isFinished = isFinished,
-                dateFinished = dateFinished,
+                finishedDate = finishedDate,
                 isFavourite = false,
+                reminderDate = null,
+                expirationDate = null,
                 details = "",
-                dateCreation = Time.CurrentDate().toString()
+                creationDate = Time.currentDate()
             )
             onClickButtonAdd(taskModel)
             resetValues()

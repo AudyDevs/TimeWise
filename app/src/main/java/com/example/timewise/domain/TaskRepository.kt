@@ -16,4 +16,14 @@ interface TaskRepository {
     suspend fun updateTaskFavourite(id: Int, idLabel: Int, isFavourite: Boolean)
 
     suspend fun deleteTask(task: TaskModel)
+
+    suspend fun deleteAllTasks(idLabel: Int)
+
+    suspend fun getNumberTasksToday(): Int
+
+    suspend fun getNumberTasksWeek(): Int
+
+    suspend fun getNumberTasksLater(): Int
+
+    suspend fun getNumberTasksExpired(): Int
 }

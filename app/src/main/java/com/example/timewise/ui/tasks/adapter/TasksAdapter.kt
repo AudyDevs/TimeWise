@@ -9,6 +9,7 @@ import com.example.timewise.domain.model.TaskModel
 
 class TasksAdapter(
     private var tasksList: List<TaskModel> = emptyList(),
+    private var textColor: Int,
     private val onItemSelected: (TaskModel) -> Unit,
     private val onUpdateFinished: (Int, Boolean) -> Unit,
     private val onUpdateFavourite: (Int, Boolean) -> Unit
@@ -19,6 +20,11 @@ class TasksAdapter(
         val result = DiffUtil.calculateDiff((diff))
         tasksList = list
         result.dispatchUpdatesTo(this)
+    }
+
+    fun updateColor(color: Int) {
+        textColor = color
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TasksViewHolder {
@@ -32,6 +38,7 @@ class TasksAdapter(
     override fun onBindViewHolder(holder: TasksViewHolder, position: Int) {
         holder.render(
             tasksList[position],
+            textColor,
             onItemSelected,
             onUpdateFinished,
             onUpdateFavourite

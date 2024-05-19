@@ -20,7 +20,13 @@
     <string name="expired">Tareas expiradas</string>
 
     <!--Task Activity text view-->
-    <string name="completed">Completados</string>
+    <string name="completed">Completados %1$s</string>
+    <string name="hintNameTask">Nombre tarea</string>
+    <string name="hintExpiredTask">Vencimiento</string>
+    <string name="hintReminderTask">Recordatorio</string>
+    <string name="hintDetailsTask">Notas</string>
+    <string name="creationDate">Creado el %1$s</string>
+    <string name="finishedDate">Finalizado el %1$s</string>
 
     <!--Dialog label-->
     <string name="dialogLabelTitle">Crea una etiqueta</string>
@@ -31,7 +37,8 @@
 
     <!--Dialog delete label-->
     <string name="dialogDeleteTitle">¿Estás seguro?</string>
-    <string name="dialogDeleteMessage">La lista se eliminará permanentemente</string>
+    <string name="dialogDeleteListMessage">La lista se eliminará permanentemente</string>
+    <string name="dialogDeleteTaskMessage">La tarea se eliminará permanentemente</string>
     <string name="dialogDeleteYes">CANCELAR</string>
     <string name="dialogDeleteNo">ELIMINAR</string>
 
@@ -41,6 +48,16 @@
     <!--Items menu tasks-->
     <string name="itemEditLabel">Modificar etiqueta</string>
     <string name="itemDeleteLabel">Eliminar etiqueta</string>
+
+    <!--Items menu tasks-->
+    <string name="menuReminderToday">Más tarde hoy</string>
+    <string name="menuReminderTomorrow">Para mañana</string>
+    <string name="menuReminderLater">Próxima semana</string>
+    <string name="menuReminderPickDate">Elegir una fecha y hora</string>
+    <string name="menuExpirationToday">Para hoy</string>
+    <string name="menuExpirationTomorrow">Para mañana</string>
+    <string name="menuExpirationLater">Próxima semana</string>
+    <string name="menuExpirationPickDate">Elegir una fecha</string>
 
     <!--Error-->
     <string name="Error1">It ain\'t the end of world. Check back again shortly.</string>

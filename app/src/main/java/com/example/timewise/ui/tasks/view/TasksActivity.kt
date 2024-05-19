@@ -1,14 +1,11 @@
 package com.example.timewise.ui.tasks.view
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
@@ -20,9 +17,11 @@ import com.example.timewise.R
 import com.example.timewise.databinding.ActivityTasksBinding
 import com.example.timewise.domain.model.LabelModel
 import com.example.timewise.domain.model.TaskModel
-import com.example.timewise.ui.detail.DetailTaskActivity
+import com.example.timewise.ui.detail.view.DetailTaskActivity
 import com.example.timewise.ui.dialog.DialogAddTask
+import com.example.timewise.ui.dialog.DialogDelete
 import com.example.timewise.ui.dialog.DialogLabel
+import com.example.timewise.ui.dialog.DialogLabel.Companion.INT_NULL
 import com.example.timewise.ui.tasks.adapter.TasksAdapter
 import com.example.timewise.ui.tasks.adapter.TasksAdapterFinished
 import com.example.timewise.ui.tasks.viewmodel.TasksViewModel
@@ -36,8 +35,9 @@ class TasksActivity : AppCompatActivity() {
     private lateinit var tasksAdapter: TasksAdapter
     private lateinit var tasksAdapterFinished: TasksAdapterFinished
     private lateinit var binding: ActivityTasksBinding
-    private var idLabel: Int = 0
     private lateinit var labelModel: LabelModel
+    private var idLabel: Int = 0
+    private var textColor: Int = INT_NULL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,10 +70,12 @@ class TasksActivity : AppCompatActivity() {
 
     private fun initIntents() {
         idLabel = intent?.extras?.getInt("id") ?: 0
+        textColor = intent?.extras?.getInt("textColor") ?: INT_NULL
     }
 
     private fun initAdapter() {
         tasksAdapter = TasksAdapter(
+            textColor = textColor,
             onItemSelected = { tasksModel ->
                 navigateToDetailTaskActivity(tasksModel.id)
             },
@@ -84,6 +86,7 @@ class TasksActivity : AppCompatActivity() {
             })
 
         tasksAdapterFinished = TasksAdapterFinished(
+            textColor = textColor,
             onItemSelected = { tasksModel ->
                 navigateToDetailTaskActivity(tasksModel.id)
             },
@@ -130,6 +133,8 @@ class TasksActivity : AppCompatActivity() {
                 tasksViewModel.label.collect {
                     if (it != null) {
                         labelModel = it
+                        tasksAdapter.updateColor(labelModel.textColor)
+                        tasksAdapterFinished.updateColor(labelModel.textColor)
                         binding.etName.text = labelModel.name
                         changeUIColor()
                         tasksViewModel.getTasks(labelModel.id)
@@ -151,11 +156,10 @@ class TasksActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     private fun showCompleted(responseFinished: List<TaskModel>) {
         if (responseFinished.isNotEmpty()) {
             binding.tvCompleted.text =
-                getString(R.string.completed) + " " + responseFinished.size.toString()
+                getString(R.string.completed, responseFinished.size.toString())
             binding.layoutCompleted.isVisible = true
         } else {
             binding.layoutCompleted.isVisible = false
@@ -190,18 +194,14 @@ class TasksActivity : AppCompatActivity() {
     }
 
     private fun showDialogDelete() {
-        val builder = AlertDialog.Builder(this)
-            .setTitle(R.string.dialogDeleteTitle)
-            .setMessage(R.string.dialogDeleteMessage)
-            .setCancelable(false)
-            .setPositiveButton(
-                R.string.dialogDeleteNo
-            ) { _, _ -> deleteLabel() }
-            .setNegativeButton(R.string.dialogDeleteYes) { _, _ -> }
-            .create()
-        builder.show()
-        builder.getButton(AlertDialog.BUTTON_POSITIVE)
-            .setTextColor(ContextCompat.getColor(this, R.color.error))
+        DialogDelete(
+            binding.main,
+            R.string.dialogDeleteListMessage,
+            onSelectedButton = { isSelected ->
+                if (isSelected) {
+                    deleteLabel()
+                }
+            })
     }
 
     private fun showListFinished() {
@@ -224,6 +224,10 @@ class TasksActivity : AppCompatActivity() {
     private fun navigateToDetailTaskActivity(id: Int) {
         val intent = Intent(this, DetailTaskActivity::class.java)
         intent.putExtra("id", id)
+        intent.putExtra("idLabel", idLabel)
+        intent.putExtra("nameLabel", labelModel.name)
+        intent.putExtra("textColor", labelModel.textColor)
+        intent.putExtra("backcolor", labelModel.backcolor)
         startActivity(intent)
     }
 }

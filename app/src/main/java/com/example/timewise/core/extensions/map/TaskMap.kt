@@ -8,10 +8,12 @@ fun TaskModel.toRoom() = TaskEntity(
     idLabel = idLabel,
     name = name,
     isFinished = isFinished,
-    dateFinished = dateFinished,
+    finishedDate = finishedDate,
     isFavourite = isFavourite,
+    reminderDate = reminderDate,
+    expirationDate = expirationDate,
     details = details,
-    dateCreation = dateCreation
+    creationDate = creationDate
 )
 
 fun TaskEntity.toDomain() = TaskModel(
@@ -19,8 +21,10 @@ fun TaskEntity.toDomain() = TaskModel(
     idLabel = idLabel,
     name = name,
     isFinished = isFinished,
-    dateFinished = dateFinished,
+    finishedDate = finishedDate,
     isFavourite = isFavourite,
+    reminderDate = reminderDate,
+    expirationDate = expirationDate,
     details = details,
-    dateCreation = dateCreation
+    creationDate = creationDate
 )

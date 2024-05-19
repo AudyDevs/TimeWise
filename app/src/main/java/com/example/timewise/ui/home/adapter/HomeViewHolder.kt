@@ -14,12 +14,6 @@ class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             tvId.text = label.id.toString()
             tvTitle.text = label.name
 
-//        if (label.numberIncomplete > 0) {
-//            tvNumberIncomplete.text = label.numberIncomplete.toString()
-//        } else {
-//            tvNumberIncomplete.text = null
-//        }
-
             if (label.image != INT_NULL) {
                 image.setImageResource(label.image)
             } else {
