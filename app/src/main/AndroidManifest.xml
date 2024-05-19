@@ -14,20 +14,20 @@
         android:theme="@style/Theme.TimeWise"
         tools:targetApi="31" >
         <activity
-            android:name=".ui.filtered.FilteredTasksActivity"
+            android:name=".ui.activities.filtered.view.FilteredTasksActivity"
             android:exported="false"
             android:theme="@style/Theme.TimeWise" />
         <activity
-            android:name=".ui.detail.view.DetailTaskActivity"
+            android:name=".ui.activities.detail.view.DetailTaskActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.search.SearchActivity"
+            android:name=".ui.activities.search.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.tasks.view.TasksActivity"
+            android:name=".ui.activities.tasks.view.TasksActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.home.view.MainActivity"
+            android:name=".ui.activities.home.view.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

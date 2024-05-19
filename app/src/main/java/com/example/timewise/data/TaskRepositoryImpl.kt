@@ -2,10 +2,12 @@ package com.example.timewise.data
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.example.timewise.core.FilterTypes
 import com.example.timewise.core.Time
 import com.example.timewise.core.extensions.map.toDomain
 import com.example.timewise.core.extensions.map.toRoom
 import com.example.timewise.data.room.dao.TaskDao
+import com.example.timewise.data.room.entities.TaskEntity
 import com.example.timewise.domain.TaskRepository
 import com.example.timewise.domain.model.TaskModel
 import javax.inject.Inject
@@ -49,14 +51,36 @@ class TaskRepositoryImpl @Inject constructor(private val taskDao: TaskDao) : Tas
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override suspend fun getNumberTasksToday(): Int {
+    override suspend fun getNumberFilteredTasks(filterTypes: FilterTypes): Int {
         var number = 0
         val response = taskDao.getAllTasks()
         val responseFiltered = response.filter { !it.isFinished }
         responseFiltered.forEach { taskEntity ->
             if (taskEntity.expirationDate != null) {
-                if (Time.isCurrentDate(taskEntity.expirationDate)) {
-                    number += 1
+                when (filterTypes) {
+                    FilterTypes.Today -> {
+                        if (Time.isCurrentDate(taskEntity.expirationDate)) {
+                            number += 1
+                        }
+                    }
+
+                    FilterTypes.Week -> {
+                        if (Time.isWeekDate(taskEntity.expirationDate)) {
+                            number += 1
+                        }
+                    }
+
+                    FilterTypes.Later -> {
+                        if (Time.isLaterDate(taskEntity.expirationDate)) {
+                            number += 1
+                        }
+                    }
+
+                    FilterTypes.Expired -> {
+                        if (Time.isExpiredDate(taskEntity.expirationDate)) {
+                            number += 1
+                        }
+                    }
                 }
             }
         }
@@ -64,47 +88,39 @@ class TaskRepositoryImpl @Inject constructor(private val taskDao: TaskDao) : Tas
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override suspend fun getNumberTasksWeek(): Int {
-        var number = 0
+    override suspend fun getFilteredTasks(filterTypes: FilterTypes): List<TaskModel> {
+        val listTaskEntity = mutableListOf<TaskEntity>()
         val response = taskDao.getAllTasks()
         val responseFiltered = response.filter { !it.isFinished }
         responseFiltered.forEach { taskEntity ->
             if (taskEntity.expirationDate != null) {
-                if (Time.isWeekDate(taskEntity.expirationDate)) {
-                    number += 1
-                }
-            }
-        }
-        return number
-    }
+                when (filterTypes) {
+                    FilterTypes.Today -> {
+                        if (Time.isCurrentDate(taskEntity.expirationDate)) {
+                            listTaskEntity.add(taskEntity)
+                        }
+                    }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    override suspend fun getNumberTasksLater(): Int {
-        var number = 0
-        val response = taskDao.getAllTasks()
-        val responseFiltered = response.filter { !it.isFinished }
-        responseFiltered.forEach { taskEntity ->
-            if (taskEntity.expirationDate != null) {
-                if (Time.isLaterDate(taskEntity.expirationDate)) {
-                    number += 1
-                }
-            }
-        }
-        return number
-    }
+                    FilterTypes.Week -> {
+                        if (Time.isWeekDate(taskEntity.expirationDate)) {
+                            listTaskEntity.add(taskEntity)
+                        }
+                    }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    override suspend fun getNumberTasksExpired(): Int {
-        var number = 0
-        val response = taskDao.getAllTasks()
-        val responseFiltered = response.filter { !it.isFinished }
-        responseFiltered.forEach { taskEntity ->
-            if (taskEntity.expirationDate != null) {
-                if (Time.isExpiredDate(taskEntity.expirationDate)) {
-                    number += 1
+                    FilterTypes.Later -> {
+                        if (Time.isLaterDate(taskEntity.expirationDate)) {
+                            listTaskEntity.add(taskEntity)
+                        }
+                    }
+
+                    FilterTypes.Expired -> {
+                        if (Time.isExpiredDate(taskEntity.expirationDate)) {
+                            listTaskEntity.add(taskEntity)
+                        }
+                    }
                 }
             }
         }
-        return number
+        return listTaskEntity.map { it.toDomain() }
     }
 }

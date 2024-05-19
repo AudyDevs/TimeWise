@@ -1,5 +1,6 @@
 package com.example.timewise.domain
 
+import com.example.timewise.core.FilterTypes
 import com.example.timewise.domain.model.TaskModel
 
 interface TaskRepository {
@@ -19,11 +20,7 @@ interface TaskRepository {
 
     suspend fun deleteAllTasks(idLabel: Int)
 
-    suspend fun getNumberTasksToday(): Int
+    suspend fun getNumberFilteredTasks(filterTypes: FilterTypes): Int
 
-    suspend fun getNumberTasksWeek(): Int
-
-    suspend fun getNumberTasksLater(): Int
-
-    suspend fun getNumberTasksExpired(): Int
+    suspend fun getFilteredTasks(filterTypes: FilterTypes): List<TaskModel>
 }

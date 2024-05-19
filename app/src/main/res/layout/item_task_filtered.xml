@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="2dp"
+    android:layout_marginHorizontal="10dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@color/textColorGreen"
+    app:cardCornerRadius="8dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginVertical="2dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/background"
+        app:cardCornerRadius="7dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/layoutFinished"
+                android:layout_width="45dp"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/layoutName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageFinished"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_circle_unchecked"
+                    app:tint="@color/primary"
+                    android:contentDescription="@string/cd_image" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutFavorite"
+                android:layout_width="45dp"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/layoutName"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageFavorite"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_star_unchecked"
+                    app:tint="@color/primary"
+                    android:contentDescription="@string/cd_image" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:gravity="center"
+                android:textColor="@color/onBackground"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Id" />
+
+            <LinearLayout
+                android:id="@+id/layoutName"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:layout_marginVertical="4dp"
+                android:layout_marginHorizontal="4dp"
+                android:gravity="center_vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/layoutFavorite"
+                app:layout_constraintStart_toEndOf="@+id/layoutFinished"
+                app:layout_constraintTop_toTopOf="parent" >
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/onBackground"
+                    android:textSize="18sp"
+                    tools:text="@string/app_name" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/layoutLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="3dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="4dp"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/disable"
+                            android:textSize="12sp"
+                            tools:text="@string/app_name" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutExpiration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="3dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageExpiration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/cd_image"
+                            android:src="@drawable/ic_calendar_today"
+                            app:tint="@color/disable" />
+
+                        <TextView
+                            android:id="@+id/tvExpiration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="4dp"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/disable"
+                            android:textSize="12sp"
+                            tools:text="@string/app_name" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.cardview.widget.CardView>

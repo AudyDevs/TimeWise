@@ -14,7 +14,7 @@ import com.example.timewise.core.extensions.showKeyboard
 import com.example.timewise.databinding.DialogAddTaskBinding
 import com.example.timewise.domain.model.LabelModel
 import com.example.timewise.domain.model.TaskModel
-import com.example.timewise.ui.tasks.view.TasksActivity
+import com.example.timewise.ui.activities.tasks.view.TasksActivity
 
 class DialogAddTask(
     context: TasksActivity,
