@@ -19,7 +19,7 @@ import com.example.timewise.databinding.ActivityMainBinding
 import com.example.timewise.ui.activities.filtered.view.FilteredTasksActivity
 import com.example.timewise.ui.activities.home.adapter.HomeAdapter
 import com.example.timewise.ui.activities.home.viewmodel.HomeViewModel
-import com.example.timewise.ui.activities.search.SearchActivity
+import com.example.timewise.ui.activities.search.view.SearchActivity
 import com.example.timewise.ui.activities.tasks.view.TasksActivity
 import com.example.timewise.ui.dialog.DialogLabel
 import dagger.hilt.android.AndroidEntryPoint

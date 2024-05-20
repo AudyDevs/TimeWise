@@ -23,4 +23,6 @@ interface TaskRepository {
     suspend fun getNumberFilteredTasks(filterTypes: FilterTypes): Int
 
     suspend fun getFilteredTasks(filterTypes: FilterTypes): List<TaskModel>
+
+    suspend fun getSearchedTasks(search: String): List<TaskModel>
 }

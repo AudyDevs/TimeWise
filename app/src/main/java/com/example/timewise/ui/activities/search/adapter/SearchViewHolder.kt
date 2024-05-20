@@ -1,4 +1,4 @@
-package com.example.timewise.ui.activities.filtered.adapter
+package com.example.timewise.ui.activities.search.adapter
 
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -13,7 +13,7 @@ import com.example.timewise.databinding.ItemTaskFilteredBinding
 import com.example.timewise.domain.model.LabelModel
 import com.example.timewise.domain.model.TaskModel
 
-class FilteredTasksViewHolder(view: View ) : ViewHolder(view) {
+class SearchViewHolder(view: View) : ViewHolder(view) {
 
     private val binding = ItemTaskFilteredBinding.bind(view)
 

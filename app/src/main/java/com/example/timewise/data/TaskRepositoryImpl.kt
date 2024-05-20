@@ -123,4 +123,14 @@ class TaskRepositoryImpl @Inject constructor(private val taskDao: TaskDao) : Tas
         }
         return listTaskEntity.map { it.toDomain() }
     }
+
+    override suspend fun getSearchedTasks(search: String): List<TaskModel> {
+        return if (search.isNotEmpty()) {
+            val response = taskDao.getAllTasks()
+            val responseFiltered = response.filter { it.name.contains(search) }
+            responseFiltered.map { it.toDomain() }
+        } else {
+            emptyList()
+        }
+    }
 }
