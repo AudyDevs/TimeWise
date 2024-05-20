@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -91,6 +92,7 @@ class FilteredTasksActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 filteredTasksViewModel.tasks.collect { taskModel ->
+                    binding.layoutStateFilter.isVisible = taskModel.isEmpty()
                     filteredTasksAdapter.updateList(taskModel)
                 }
             }

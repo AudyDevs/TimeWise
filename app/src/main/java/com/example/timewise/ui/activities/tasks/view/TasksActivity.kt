@@ -146,6 +146,7 @@ class TasksActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 tasksViewModel.tasks.collect { taskModel ->
+                    binding.layoutStateTask.isVisible = taskModel.isEmpty()
                     val responseNoFinished = taskModel.filter { !it.isFinished }
                     val responseFinished = taskModel.filter { it.isFinished }
                     tasksAdapter.updateList(responseNoFinished)

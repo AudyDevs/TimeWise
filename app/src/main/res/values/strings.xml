@@ -59,8 +59,14 @@
     <string name="menuExpirationLater">Próxima semana</string>
     <string name="menuExpirationPickDate">Elegir una fecha</string>
 
-    <!--Error-->
-    <string name="Error1">It ain\'t the end of world. Check back again shortly.</string>
-    <string name="Error2">Something went wrong please try again later.</string>
+    <!--Text Stats-->
+    <string name="TitleLabel">Sin etiquetas</string>
+    <string name="SubtitleLabel">Empieza a etiquetar temas que te gusten</string>
+    <string name="TitleTask">Sin tareas</string>
+    <string name="SubtitleTask">Cree nuevas tareas que necesite para esta etiqueta</string>
+    <string name="TitleSearch">No se han encontrado resultados</string>
+    <string name="SubtitleSearch">Intente ajustar su búsqueda para encontrar lo que busca</string>
+    <string name="TitleFilter">Tu agenda está vacía</string>
+    <string name="SubtitleFilter">No hay tareas programadas</string>
 
 </resources>
