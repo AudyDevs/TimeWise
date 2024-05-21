@@ -19,7 +19,6 @@ import com.example.timewise.domain.model.LabelModel
 import com.example.timewise.ui.activities.detail.view.DetailTaskActivity
 import com.example.timewise.ui.activities.filtered.adapter.FilteredTasksAdapter
 import com.example.timewise.ui.activities.filtered.viewmodel.FilteredTasksViewModel
-import com.example.timewise.ui.dialog.DialogLabel.Companion.INT_NULL
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -68,15 +67,13 @@ class FilteredTasksActivity : AppCompatActivity() {
     }
 
     private fun initAdapter() {
-        filteredTasksAdapter = FilteredTasksAdapter(
-            onItemSelected = { tasksModel ->
-                navigateToDetailTaskActivity(tasksModel.id, tasksModel.idLabel)
-            },
-            onUpdateFinished = { id, idLabel, isFinished ->
-                filteredTasksViewModel.updateTaskFinished(id, idLabel, isFinished)
-            }, onUpdateFavourite = { id, idLabel, isFavourite ->
-                filteredTasksViewModel.updateTaskFavourite(id, idLabel, isFavourite)
-            })
+        filteredTasksAdapter = FilteredTasksAdapter(onItemSelected = { tasksModel ->
+            navigateToDetailTaskActivity(tasksModel.id)
+        }, onUpdateFinished = { id, isFinished ->
+            filteredTasksViewModel.updateTaskFinished(id, isFinished)
+        }, onUpdateFavourite = { id, isFavourite ->
+            filteredTasksViewModel.updateTaskFavourite(id, isFavourite)
+        })
 
         binding.rvFilteredTasks.apply {
             layoutManager = LinearLayoutManager(context)
@@ -107,15 +104,9 @@ class FilteredTasksActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateToDetailTaskActivity(id: Int, idLabel: Int) {
+    private fun navigateToDetailTaskActivity(idTask: Int) {
         val intent = Intent(this, DetailTaskActivity::class.java)
-        intent.putExtra("id", id)
-        intent.putExtra("idLabel", idLabel)
-
-        val labelSelected = labelModel.find { it.id == idLabel }
-        intent.putExtra("nameLabel", labelSelected?.name ?: "")
-        intent.putExtra("textColor", labelSelected?.textColor ?: INT_NULL)
-        intent.putExtra("backcolor", labelSelected?.backcolor ?: INT_NULL)
+        intent.putExtra("idTask", idTask)
         startActivity(intent)
     }
 }

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" >
 
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".TimeWiseApp"
         android:allowBackup="true"
@@ -13,6 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TimeWise"
         tools:targetApi="31" >
+        <receiver android:name=".core.AlarmNotification"
+            android:enabled="true"/>
         <activity
             android:name=".ui.activities.filtered.view.FilteredTasksActivity"
             android:exported="false"
@@ -36,5 +41,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

@@ -1,5 +1,12 @@
 package com.example.timewise.ui.activities.detail.view
 
+import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
@@ -15,12 +22,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.timewise.R
+import com.example.timewise.core.AlarmNotification
 import com.example.timewise.core.Time
 import com.example.timewise.databinding.ActivityDetailTaskBinding
+import com.example.timewise.domain.model.LabelModel
 import com.example.timewise.domain.model.TaskModel
 import com.example.timewise.ui.activities.detail.viewmodel.DetailTaskViewModel
 import com.example.timewise.ui.dialog.DialogDelete
-import com.example.timewise.ui.dialog.DialogLabel.Companion.INT_NULL
 import com.example.timewise.ui.menu.ExpiredMenu
 import com.example.timewise.ui.menu.ReminderMenu
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,12 +40,9 @@ class DetailTaskActivity : AppCompatActivity() {
 
     private val detailTaskViewModel by viewModels<DetailTaskViewModel>()
     private lateinit var binding: ActivityDetailTaskBinding
-    private var id: Int = 0
-    private var idLabel: Int = 0
-    private var nameLabel: String = ""
-    private var textColor: Int = INT_NULL
-    private var backcolor: Int = INT_NULL
+    private var idTask: Int = 0
     private lateinit var taskModel: TaskModel
+    private lateinit var labelModel: LabelModel
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,9 +61,9 @@ class DetailTaskActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initUI() {
         initIntents()
-        initUIColor()
         initListeners()
         initUIState()
+        initNotificationChannel()
     }
 
     override fun onResume() {
@@ -67,15 +72,11 @@ class DetailTaskActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        detailTaskViewModel.getTaskID(id, idLabel)
+        detailTaskViewModel.getTaskID(idTask)
     }
 
     private fun initIntents() {
-        id = intent?.extras?.getInt("id") ?: 0
-        idLabel = intent?.extras?.getInt("idLabel") ?: 0
-        nameLabel = intent?.extras?.getString("nameLabel") ?: ""
-        textColor = intent?.extras?.getInt("textColor") ?: INT_NULL
-        backcolor = intent?.extras?.getInt("backcolor") ?: INT_NULL
+        idTask = intent?.extras?.getInt("idTask") ?: 0
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -100,44 +101,55 @@ class DetailTaskActivity : AppCompatActivity() {
                 detailTaskViewModel.task.collect {
                     if (it != null) {
                         taskModel = it
+                        detailTaskViewModel.getLabelID(taskModel.idLabel)
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                detailTaskViewModel.label.collect {
+                    if (it != null) {
+                        labelModel = it
                         changeUIValues()
+                        changeUIColor()
                     }
                 }
             }
         }
     }
 
-    private fun initUIColor() {
+    private fun changeUIColor() {
         binding.apply {
-            toolbar.setBackgroundColor(backcolor)
-            etNameLabel.setTextColor(textColor)
-            btnDelete.imageTintList = ColorStateList.valueOf(textColor)
-            btnDelete.setBackgroundColor(backcolor)
-            btnBack.imageTintList = ColorStateList.valueOf(textColor)
-            btnBack.setBackgroundColor(backcolor)
-            separator.setBackgroundColor(textColor)
-            layoutNameTask.setBackgroundColor(backcolor)
-            btnFavourite.imageTintList = ColorStateList.valueOf(textColor)
-            btnFavourite.setBackgroundColor(backcolor)
-            btnFinished.imageTintList = ColorStateList.valueOf(textColor)
-            btnFinished.setBackgroundColor(backcolor)
-            etNameTask.setBackgroundColor(backcolor)
-            etNameTask.setTextColor(textColor)
-            layoutExpirationDate.setEndIconTintList(ColorStateList.valueOf(textColor))
-            layoutExpirationDate.setStartIconTintList(ColorStateList.valueOf(textColor))
-            layoutReminderDate.setEndIconTintList(ColorStateList.valueOf(textColor))
-            layoutReminderDate.setStartIconTintList(ColorStateList.valueOf(textColor))
-            layoutCreateDate.setBackgroundColor(backcolor)
-            etCreateDate.setTextColor(textColor)
-            fbAdd.imageTintList = ColorStateList.valueOf(backcolor)
-            fbAdd.backgroundTintList = ColorStateList.valueOf(textColor)
+            toolbar.setBackgroundColor(labelModel.backcolor)
+            etNameLabel.setTextColor(labelModel.textColor)
+            btnDelete.imageTintList = ColorStateList.valueOf(labelModel.textColor)
+            btnDelete.setBackgroundColor(labelModel.backcolor)
+            btnBack.imageTintList = ColorStateList.valueOf(labelModel.textColor)
+            btnBack.setBackgroundColor(labelModel.backcolor)
+            separator.setBackgroundColor(labelModel.textColor)
+            layoutNameTask.setBackgroundColor(labelModel.backcolor)
+            btnFavourite.imageTintList = ColorStateList.valueOf(labelModel.textColor)
+            btnFavourite.setBackgroundColor(labelModel.backcolor)
+            btnFinished.imageTintList = ColorStateList.valueOf(labelModel.textColor)
+            btnFinished.setBackgroundColor(labelModel.backcolor)
+            etNameTask.setBackgroundColor(labelModel.backcolor)
+            etNameTask.setTextColor(labelModel.textColor)
+            layoutExpirationDate.setEndIconTintList(ColorStateList.valueOf(labelModel.textColor))
+            layoutExpirationDate.setStartIconTintList(ColorStateList.valueOf(labelModel.textColor))
+            layoutReminderDate.setEndIconTintList(ColorStateList.valueOf(labelModel.textColor))
+            layoutReminderDate.setStartIconTintList(ColorStateList.valueOf(labelModel.textColor))
+            layoutCreateDate.setBackgroundColor(labelModel.backcolor)
+            etCreateDate.setTextColor(labelModel.textColor)
+            fbAdd.imageTintList = ColorStateList.valueOf(labelModel.backcolor)
+            fbAdd.backgroundTintList = ColorStateList.valueOf(labelModel.textColor)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun changeUIValues() {
         binding.apply {
-            etNameLabel.text = nameLabel
+            etNameLabel.text = labelModel.name
             etNameTask.text = taskModel.name
             if (taskModel.expirationDate != null) {
                 etExpirationDate.setText(Time.toStringExpirationDate(taskModel.expirationDate!!))
@@ -197,13 +209,13 @@ class DetailTaskActivity : AppCompatActivity() {
                 binding.layoutExpirationDate.setStartIconTintList(ColorStateList.valueOf(Color.RED))
             } else {
                 binding.etExpirationDate.setTextColor(Color.BLACK)
-                binding.layoutExpirationDate.setEndIconTintList(ColorStateList.valueOf(textColor))
-                binding.layoutExpirationDate.setStartIconTintList(ColorStateList.valueOf(textColor))
+                binding.layoutExpirationDate.setEndIconTintList(ColorStateList.valueOf(labelModel.textColor))
+                binding.layoutExpirationDate.setStartIconTintList(ColorStateList.valueOf(labelModel.textColor))
             }
         } else {
             binding.etExpirationDate.setTextColor(Color.BLACK)
-            binding.layoutExpirationDate.setEndIconTintList(ColorStateList.valueOf(textColor))
-            binding.layoutExpirationDate.setStartIconTintList(ColorStateList.valueOf(textColor))
+            binding.layoutExpirationDate.setEndIconTintList(ColorStateList.valueOf(labelModel.textColor))
+            binding.layoutExpirationDate.setStartIconTintList(ColorStateList.valueOf(labelModel.textColor))
         }
     }
 
@@ -247,6 +259,18 @@ class DetailTaskActivity : AppCompatActivity() {
             }
         } else {
             null
+        }
+
+        cancelNotification(taskModel.id)
+        if (binding.etReminderDate.tag != null) {
+            if (binding.btnFinished.tag == R.drawable.ic_circle_unchecked) {
+                scheduleNotification(
+                    getString(R.string.TitleReminder),
+                    getString(R.string.MessageReminder, taskModel.name),
+                    taskModel.id,
+                    binding.etReminderDate.tag as Date
+                )
+            }
         }
 
         detailTaskViewModel.updateTask(
@@ -308,5 +332,59 @@ class DetailTaskActivity : AppCompatActivity() {
             binding.etReminderDate.setText(Time.toStringReminderDate(date))
             binding.etReminderDate.tag = date
         })
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun initNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Notification Channel"
+            val desc = "A description of the Channel"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(AlarmNotification.CHANNEL_ID, name, importance)
+            channel.description = desc
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    @SuppressLint("ScheduleExactAlarm")
+    private fun scheduleNotification(
+        title: String,
+        message: String,
+        notificationId: Int,
+        dateNotification: Date
+    ) {
+        val intent = Intent(applicationContext, AlarmNotification::class.java)
+        intent.putExtra(AlarmNotification.TITLE_EXTRA, title)
+        intent.putExtra(AlarmNotification.MESSAGE_EXTRA, message)
+        intent.putExtra("NOTIFICATION_ID", notificationId)
+        val pendingIntent = PendingIntent.getBroadcast(
+            applicationContext,
+            notificationId,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val trigger: Long = Time.toTimeInMillis(dateNotification)
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            trigger,
+            pendingIntent
+        )
+    }
+
+    @SuppressLint("ScheduleExactAlarm")
+    private fun cancelNotification(notificationID: Int) {
+        val intent = Intent(applicationContext, AlarmNotification::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            applicationContext,
+            notificationID,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(pendingIntent)
     }
 }

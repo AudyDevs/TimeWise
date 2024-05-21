@@ -62,9 +62,9 @@ class TasksViewModel @Inject constructor(
         }
     }
 
-    fun getTasks(idLabel: Int) {
+    fun getTasks() {
         viewModelScope.launch {
-            _tasks.value = withContext(Dispatchers.IO) { getTasksUseCase(idLabel) }
+            _tasks.value = withContext(Dispatchers.IO) { getTasksUseCase(label.value!!.id) }
         }
     }
 
@@ -72,25 +72,25 @@ class TasksViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 insertTaskUseCase.invoke(task)
-                getTasks(task.idLabel)
+                getTasks()
             }
         }
     }
 
-    fun updateTaskFinished(id: Int, idLabel: Int, isFinished: Boolean) {
+    fun updateTaskFinished(id: Int, isFinished: Boolean) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                updateTaskFinishedUseCase.invoke(id, idLabel, isFinished)
-                getTasks(idLabel)
+                updateTaskFinishedUseCase.invoke(id, isFinished)
+                getTasks()
             }
         }
     }
 
-    fun updateTaskFavourite(id: Int, idLabel: Int, isFavourite: Boolean) {
+    fun updateTaskFavourite(id: Int, isFavourite: Boolean) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                updateTaskFavouriteUseCase.invoke(id, idLabel, isFavourite)
-                getTasks(idLabel)
+                updateTaskFavouriteUseCase.invoke(id, isFavourite)
+                getTasks()
             }
         }
     }

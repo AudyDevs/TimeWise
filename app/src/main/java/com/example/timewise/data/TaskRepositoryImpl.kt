@@ -18,8 +18,8 @@ class TaskRepositoryImpl @Inject constructor(private val taskDao: TaskDao) : Tas
         return response.map { it.toDomain() }
     }
 
-    override suspend fun getTasksId(id: Int, idLabel: Int): TaskModel {
-        val response = taskDao.getTaskID(id, idLabel)
+    override suspend fun getTasksId(id: Int): TaskModel {
+        val response = taskDao.getTaskID(id)
         return response.toDomain()
     }
 
@@ -33,12 +33,12 @@ class TaskRepositoryImpl @Inject constructor(private val taskDao: TaskDao) : Tas
         taskDao.updateTask(response)
     }
 
-    override suspend fun updateTaskFinished(id: Int, idLabel: Int, isFinished: Boolean) {
-        taskDao.updateTaskFinished(id, idLabel, isFinished)
+    override suspend fun updateTaskFinished(id: Int, isFinished: Boolean) {
+        taskDao.updateTaskFinished(id, isFinished)
     }
 
-    override suspend fun updateTaskFavourite(id: Int, idLabel: Int, isFavourite: Boolean) {
-        taskDao.updateTaskFavourite(id, idLabel, isFavourite)
+    override suspend fun updateTaskFavourite(id: Int, isFavourite: Boolean) {
+        taskDao.updateTaskFavourite(id, isFavourite)
     }
 
     override suspend fun deleteTask(task: TaskModel) {

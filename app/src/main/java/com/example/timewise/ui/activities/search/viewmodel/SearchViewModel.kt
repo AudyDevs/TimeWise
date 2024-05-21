@@ -44,19 +44,19 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun updateTaskFinished(id: Int, idLabel: Int, isFinished: Boolean) {
+    fun updateTaskFinished(id: Int, isFinished: Boolean) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                updateTaskFinishedUseCase.invoke(id, idLabel, isFinished)
+                updateTaskFinishedUseCase.invoke(id, isFinished)
                 getSearchedTasks()
             }
         }
     }
 
-    fun updateTaskFavourite(id: Int, idLabel: Int, isFavourite: Boolean) {
+    fun updateTaskFavourite(id: Int, isFavourite: Boolean) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                updateTaskFavouriteUseCase.invoke(id, idLabel, isFavourite)
+                updateTaskFavouriteUseCase.invoke(id, isFavourite)
                 getSearchedTasks()
             }
         }

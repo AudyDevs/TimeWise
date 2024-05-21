@@ -2,7 +2,9 @@ package com.example.timewise.ui.activities.detail.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.timewise.domain.model.LabelModel
 import com.example.timewise.domain.model.TaskModel
+import com.example.timewise.domain.usecase.label.GetLabelIdUseCase
 import com.example.timewise.domain.usecase.task.DeleteTaskUseCase
 import com.example.timewise.domain.usecase.task.GetTaskIdUseCase
 import com.example.timewise.domain.usecase.task.UpdateTaskFavouriteUseCase
@@ -18,6 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailTaskViewModel @Inject constructor(
+    private val getLabelIdUseCase: GetLabelIdUseCase,
     private val getTaskIdUseCase: GetTaskIdUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
@@ -25,12 +28,21 @@ class DetailTaskViewModel @Inject constructor(
     private val updateTaskFavouriteUseCase: UpdateTaskFavouriteUseCase
 ) : ViewModel() {
 
+    private var _label = MutableStateFlow<LabelModel?>(null)
+    var label: StateFlow<LabelModel?> = _label
+
     private val _task = MutableStateFlow<TaskModel?>(null)
     val task: StateFlow<TaskModel?> = _task
 
-    fun getTaskID(id: Int, idLabel: Int) {
+    fun getLabelID(id: Int) {
         viewModelScope.launch {
-            _task.value = withContext(Dispatchers.IO) { getTaskIdUseCase(id, idLabel) }
+            _label.value = withContext(Dispatchers.IO) { getLabelIdUseCase(id) }
+        }
+    }
+
+    fun getTaskID(id: Int) {
+        viewModelScope.launch {
+            _task.value = withContext(Dispatchers.IO) { getTaskIdUseCase(id) }
         }
     }
 
@@ -38,7 +50,7 @@ class DetailTaskViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 updateTaskUseCase.invoke(task)
-                getTaskID(task.id, task.idLabel)
+                getTaskID(task.id)
             }
         }
     }
@@ -51,20 +63,20 @@ class DetailTaskViewModel @Inject constructor(
         }
     }
 
-    fun updateTaskFinished(id: Int, idLabel: Int, isFinished: Boolean) {
+    fun updateTaskFinished(id: Int, isFinished: Boolean) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                updateTaskFinishedUseCase.invoke(id, idLabel, isFinished)
-                getTaskID(id, idLabel)
+                updateTaskFinishedUseCase.invoke(id, isFinished)
+                getTaskID(id)
             }
         }
     }
 
-    fun updateTaskFavourite(id: Int, idLabel: Int, isFavourite: Boolean) {
+    fun updateTaskFavourite(id: Int, isFavourite: Boolean) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                updateTaskFavouriteUseCase.invoke(id, idLabel, isFavourite)
-                getTaskID(id, idLabel)
+                updateTaskFavouriteUseCase.invoke(id, isFavourite)
+                getTaskID(id)
             }
         }
     }

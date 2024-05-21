@@ -62,11 +62,12 @@
     <!--Text Stats-->
     <string name="TitleLabel">Sin etiquetas</string>
     <string name="SubtitleLabel">Empieza a etiquetar temas que te gusten</string>
-    <string name="TitleTask">Sin tareas</string>
-    <string name="SubtitleTask">Cree nuevas tareas que necesite para esta etiqueta</string>
     <string name="TitleSearch">No se han encontrado resultados</string>
     <string name="SubtitleSearch">Intente ajustar su búsqueda para encontrar lo que busca</string>
     <string name="TitleFilter">Tu agenda está vacía</string>
     <string name="SubtitleFilter">No hay tareas programadas</string>
 
+    <!--Notification-->
+    <string name="TitleReminder">Aviso</string>
+    <string name="MessageReminder">Recordatorio de la tarea: %1$s</string>
 </resources>

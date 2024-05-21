@@ -8,13 +8,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.example.timewise.R
 import com.example.timewise.domain.model.TaskModel
+import com.example.timewise.ui.dialog.DialogLabel.Companion.INT_NULL
 
 class TasksAdapter(
     private var tasksList: List<TaskModel> = emptyList(),
-    private var textColor: Int,
+    private var textColor: Int = INT_NULL,
     private val onItemSelected: (TaskModel) -> Unit,
-    private val onUpdateFinished: (Int, Int, Boolean) -> Unit,
-    private val onUpdateFavourite: (Int, Int, Boolean) -> Unit
+    private val onUpdateFinished: (Int, Boolean) -> Unit,
+    private val onUpdateFavourite: (Int, Boolean) -> Unit
 ) : Adapter<TasksViewHolder>() {
 
     fun updateList(list: List<TaskModel>) {

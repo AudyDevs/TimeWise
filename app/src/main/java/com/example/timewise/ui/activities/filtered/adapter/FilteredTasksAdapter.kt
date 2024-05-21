@@ -14,8 +14,8 @@ class FilteredTasksAdapter(
     private var tasksList: List<TaskModel> = emptyList(),
     private var labelList: List<LabelModel> = emptyList(),
     private val onItemSelected: (TaskModel) -> Unit,
-    private val onUpdateFinished: (Int, Int, Boolean) -> Unit,
-    private val onUpdateFavourite: (Int, Int, Boolean) -> Unit
+    private val onUpdateFinished: (Int, Boolean) -> Unit,
+    private val onUpdateFavourite: (Int, Boolean) -> Unit
 ) : RecyclerView.Adapter<FilteredTasksViewHolder>() {
 
     fun updateList(list: List<TaskModel>) {
@@ -39,6 +39,12 @@ class FilteredTasksAdapter(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: FilteredTasksViewHolder, position: Int) {
-        holder.render(tasksList[position], labelList, onItemSelected, onUpdateFinished, onUpdateFavourite)
+        holder.render(
+            tasksList[position],
+            labelList,
+            onItemSelected,
+            onUpdateFinished,
+            onUpdateFavourite
+        )
     }
 }

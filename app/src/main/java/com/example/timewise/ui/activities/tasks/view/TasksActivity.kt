@@ -24,7 +24,6 @@ import com.example.timewise.ui.activities.tasks.viewmodel.TasksViewModel
 import com.example.timewise.ui.dialog.DialogAddTask
 import com.example.timewise.ui.dialog.DialogDelete
 import com.example.timewise.ui.dialog.DialogLabel
-import com.example.timewise.ui.dialog.DialogLabel.Companion.INT_NULL
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -37,7 +36,6 @@ class TasksActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTasksBinding
     private lateinit var labelModel: LabelModel
     private var idLabel: Int = 0
-    private var textColor: Int = INT_NULL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,31 +67,28 @@ class TasksActivity : AppCompatActivity() {
     }
 
     private fun initIntents() {
-        idLabel = intent?.extras?.getInt("id") ?: 0
-        textColor = intent?.extras?.getInt("textColor") ?: INT_NULL
+        idLabel = intent?.extras?.getInt("idLabel") ?: 0
     }
 
     private fun initAdapter() {
         tasksAdapter = TasksAdapter(
-            textColor = textColor,
             onItemSelected = { tasksModel ->
                 navigateToDetailTaskActivity(tasksModel.id)
             },
-            onUpdateFinished = { id, idLabel, isFinished ->
-                tasksViewModel.updateTaskFinished(id, idLabel, isFinished)
-            }, onUpdateFavourite = { id, idLabel, isFavourite ->
-                tasksViewModel.updateTaskFavourite(id, idLabel, isFavourite)
+            onUpdateFinished = { id, isFinished ->
+                tasksViewModel.updateTaskFinished(id, isFinished)
+            }, onUpdateFavourite = { id, isFavourite ->
+                tasksViewModel.updateTaskFavourite(id, isFavourite)
             })
 
         tasksAdapterFinished = TasksAdapterFinished(
-            textColor = textColor,
             onItemSelected = { tasksModel ->
                 navigateToDetailTaskActivity(tasksModel.id)
             },
-            onUpdateFinished = { id, idLabel, isFinished ->
-                tasksViewModel.updateTaskFinished(id, idLabel, isFinished)
-            }, onUpdateFavourite = { id, idLabel, isFavourite ->
-                tasksViewModel.updateTaskFavourite(id, idLabel, isFavourite)
+            onUpdateFinished = { id, isFinished ->
+                tasksViewModel.updateTaskFinished(id, isFinished)
+            }, onUpdateFavourite = { id, isFavourite ->
+                tasksViewModel.updateTaskFavourite(id, isFavourite)
             })
 
         binding.rvTasks.apply {
@@ -133,11 +128,9 @@ class TasksActivity : AppCompatActivity() {
                 tasksViewModel.label.collect {
                     if (it != null) {
                         labelModel = it
-                        tasksAdapter.updateColor(labelModel.textColor)
-                        tasksAdapterFinished.updateColor(labelModel.textColor)
-                        binding.etName.text = labelModel.name
+                        changeUIValues()
                         changeUIColor()
-                        tasksViewModel.getTasks(labelModel.id)
+                        tasksViewModel.getTasks()
                     }
                 }
             }
@@ -146,7 +139,6 @@ class TasksActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 tasksViewModel.tasks.collect { taskModel ->
-                    binding.layoutStateTask.isVisible = taskModel.isEmpty()
                     val responseNoFinished = taskModel.filter { !it.isFinished }
                     val responseFinished = taskModel.filter { it.isFinished }
                     tasksAdapter.updateList(responseNoFinished)
@@ -167,6 +159,12 @@ class TasksActivity : AppCompatActivity() {
         }
     }
 
+    private fun changeUIValues() {
+        binding.apply {
+            etName.text = labelModel.name
+        }
+    }
+
     private fun changeUIColor() {
         binding.apply {
             main.setBackgroundColor(labelModel.backcolor)
@@ -183,6 +181,8 @@ class TasksActivity : AppCompatActivity() {
             imageCompleted.imageTintList = ColorStateList.valueOf(labelModel.textColor)
             tvCompleted.setTextColor(labelModel.textColor)
         }
+        tasksAdapter.updateColor(labelModel.textColor)
+        tasksAdapterFinished.updateColor(labelModel.textColor)
     }
 
     private fun showDialogEdit() {
@@ -222,13 +222,9 @@ class TasksActivity : AppCompatActivity() {
         onBackPressedDispatcher.onBackPressed()
     }
 
-    private fun navigateToDetailTaskActivity(id: Int) {
+    private fun navigateToDetailTaskActivity(idTask: Int) {
         val intent = Intent(this, DetailTaskActivity::class.java)
-        intent.putExtra("id", id)
-        intent.putExtra("idLabel", idLabel)
-        intent.putExtra("nameLabel", labelModel.name)
-        intent.putExtra("textColor", labelModel.textColor)
-        intent.putExtra("backcolor", labelModel.backcolor)
+        intent.putExtra("idTask", idTask)
         startActivity(intent)
     }
 }

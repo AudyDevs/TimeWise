@@ -20,7 +20,6 @@ import com.example.timewise.domain.model.LabelModel
 import com.example.timewise.ui.activities.detail.view.DetailTaskActivity
 import com.example.timewise.ui.activities.search.adapter.SearchAdapter
 import com.example.timewise.ui.activities.search.viewmodel.SearchViewModel
-import com.example.timewise.ui.dialog.DialogLabel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -65,12 +64,12 @@ class SearchActivity : AppCompatActivity() {
     private fun initAdapter() {
         searchedAdapter = SearchAdapter(
             onItemSelected = { tasksModel ->
-                navigateToDetailTaskActivity(tasksModel.id, tasksModel.idLabel)
+                navigateToDetailTaskActivity(tasksModel.id)
             },
-            onUpdateFinished = { id, idLabel, isFinished ->
-                searchedViewModel.updateTaskFinished(id, idLabel, isFinished)
-            }, onUpdateFavourite = { id, idLabel, isFavourite ->
-                searchedViewModel.updateTaskFavourite(id, idLabel, isFavourite)
+            onUpdateFinished = { id, isFinished ->
+                searchedViewModel.updateTaskFinished(id, isFinished)
+            }, onUpdateFavourite = { id, isFavourite ->
+                searchedViewModel.updateTaskFavourite(id, isFavourite)
             })
 
         binding.rvSearchedTasks.apply {
@@ -120,15 +119,9 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateToDetailTaskActivity(id: Int, idLabel: Int) {
+    private fun navigateToDetailTaskActivity(idTask: Int) {
         val intent = Intent(this, DetailTaskActivity::class.java)
-        intent.putExtra("id", id)
-        intent.putExtra("idLabel", idLabel)
-
-        val labelSelected = labelModel.find { it.id == idLabel }
-        intent.putExtra("nameLabel", labelSelected?.name ?: "")
-        intent.putExtra("textColor", labelSelected?.textColor ?: DialogLabel.INT_NULL)
-        intent.putExtra("backcolor", labelSelected?.backcolor ?: DialogLabel.INT_NULL)
+        intent.putExtra("idTask", idTask)
         startActivity(intent)
     }
 }

@@ -13,7 +13,7 @@ import com.example.timewise.databinding.ItemTaskFilteredBinding
 import com.example.timewise.domain.model.LabelModel
 import com.example.timewise.domain.model.TaskModel
 
-class FilteredTasksViewHolder(view: View ) : ViewHolder(view) {
+class FilteredTasksViewHolder(view: View) : ViewHolder(view) {
 
     private val binding = ItemTaskFilteredBinding.bind(view)
 
@@ -22,8 +22,8 @@ class FilteredTasksViewHolder(view: View ) : ViewHolder(view) {
         tasksModel: TaskModel,
         labelList: List<LabelModel>,
         onItemSelected: (TaskModel) -> Unit,
-        onUpdateFinished: (Int, Int, Boolean) -> Unit,
-        onUpdateFavourite: (Int, Int, Boolean) -> Unit
+        onUpdateFinished: (Int, Boolean) -> Unit,
+        onUpdateFavourite: (Int, Boolean) -> Unit
     ) {
         binding.apply {
             tvId.text = tasksModel.id.toString()
@@ -65,7 +65,6 @@ class FilteredTasksViewHolder(view: View ) : ViewHolder(view) {
                 changeCheckFinished()
                 onUpdateFinished(
                     tasksModel.id,
-                    tasksModel.idLabel,
                     (imageFinished.tag == R.drawable.ic_circle_checked)
                 )
             }
@@ -73,7 +72,6 @@ class FilteredTasksViewHolder(view: View ) : ViewHolder(view) {
                 changeCheckFavourite()
                 onUpdateFavourite(
                     tasksModel.id,
-                    tasksModel.idLabel,
                     (imageFavorite.tag == R.drawable.ic_star_checked)
                 )
             }

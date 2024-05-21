@@ -4,5 +4,5 @@ import com.example.timewise.domain.TaskRepository
 import javax.inject.Inject
 
 class GetTaskIdUseCase @Inject constructor(private val repository: TaskRepository) {
-    suspend operator fun invoke(id: Int, idLabel: Int) = repository.getTasksId(id, idLabel)
+    suspend operator fun invoke(id: Int) = repository.getTasksId(id)
 }

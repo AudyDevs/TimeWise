@@ -14,8 +14,8 @@ class SearchAdapter(
     private var tasksList: List<TaskModel> = emptyList(),
     private var labelList: List<LabelModel> = emptyList(),
     private val onItemSelected: (TaskModel) -> Unit,
-    private val onUpdateFinished: (Int, Int, Boolean) -> Unit,
-    private val onUpdateFavourite: (Int, Int, Boolean) -> Unit
+    private val onUpdateFinished: (Int, Boolean) -> Unit,
+    private val onUpdateFavourite: (Int, Boolean) -> Unit
 ) : RecyclerView.Adapter<SearchViewHolder>() {
 
     fun updateList(list: List<TaskModel>) {

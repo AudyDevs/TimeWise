@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -138,5 +139,11 @@ object Time {
         val formatDate = localDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
 
         return (formatDate < formatCurrent)
+    }
+
+    fun toTimeInMillis(date: Date): Long {
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        return calendar.timeInMillis
     }
 }

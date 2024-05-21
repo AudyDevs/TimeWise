@@ -1,9 +1,11 @@
 package com.example.timewise.ui.activities.home.view
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
@@ -32,6 +34,8 @@ class MainActivity : AppCompatActivity() {
     private val homeViewModel by viewModels<HomeViewModel>()
     private lateinit var homeAdapter: HomeAdapter
     private lateinit var binding: ActivityMainBinding
+
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -45,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         initUI()
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun initUI() {
         initTheme()
         initAdapter()
@@ -69,7 +74,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initAdapter() {
         homeAdapter = HomeAdapter(onItemSelected = { labelModel ->
-            navigateToTasksActivity(labelModel.id, labelModel.textColor)
+            navigateToTasksActivity(labelModel.id)
         })
 
         binding.rvLabels.apply {
@@ -174,10 +179,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun navigateToTasksActivity(id: Int, textColor: Int) {
+    private fun navigateToTasksActivity(idLabel: Int) {
         val intent = Intent(this, TasksActivity::class.java)
-        intent.putExtra("id", id)
-        intent.putExtra("textColor", textColor)
+        intent.putExtra("idLabel", idLabel)
         startActivity(intent)
     }
 }
