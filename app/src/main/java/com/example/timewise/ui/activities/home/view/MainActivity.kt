@@ -1,5 +1,7 @@
 package com.example.timewise.ui.activities.home.view
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -17,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.timewise.R
+import com.example.timewise.core.AlarmNotification
 import com.example.timewise.core.FilterTypes
 import com.example.timewise.databinding.ActivityMainBinding
 import com.example.timewise.ui.activities.filtered.view.FilteredTasksActivity
@@ -55,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         initAdapter()
         initListeners()
         initUIState()
+        initNotificationChannel()
     }
 
     override fun onResume() {
@@ -165,6 +169,19 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun initNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Notification Channel"
+            val desc = "A description of the Channel"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(AlarmNotification.CHANNEL_ID, name, importance)
+            channel.description = desc
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
         }
     }
 

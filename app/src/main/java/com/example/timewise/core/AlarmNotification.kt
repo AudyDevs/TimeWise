@@ -17,6 +17,7 @@ class AlarmNotification : BroadcastReceiver() {
         const val CHANNEL_ID = "channel1"
         const val TITLE_EXTRA = "titleExtra"
         const val MESSAGE_EXTRA = "messageExtra"
+        const val NOTIFICATION_ID_EXTRA = "notificationExtra"
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -37,6 +38,6 @@ class AlarmNotification : BroadcastReceiver() {
                 .build()
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        manager.notify(intent.getIntExtra("NOTIFICATION_ID", NOTIFICATION_ID), notification)
+        manager.notify(intent.getIntExtra(NOTIFICATION_ID_EXTRA, NOTIFICATION_ID), notification)
     }
 }

@@ -2,8 +2,6 @@ package com.example.timewise.ui.activities.detail.view
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -23,6 +21,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.timewise.R
 import com.example.timewise.core.AlarmNotification
+import com.example.timewise.core.AlarmNotification.Companion.MESSAGE_EXTRA
+import com.example.timewise.core.AlarmNotification.Companion.NOTIFICATION_ID_EXTRA
+import com.example.timewise.core.AlarmNotification.Companion.TITLE_EXTRA
 import com.example.timewise.core.Time
 import com.example.timewise.databinding.ActivityDetailTaskBinding
 import com.example.timewise.domain.model.LabelModel
@@ -63,7 +64,6 @@ class DetailTaskActivity : AppCompatActivity() {
         initIntents()
         initListeners()
         initUIState()
-        initNotificationChannel()
     }
 
     override fun onResume() {
@@ -219,6 +219,7 @@ class DetailTaskActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun checkFinished() {
         binding.apply {
             if (btnFinished.tag == R.drawable.ic_circle_checked) {
@@ -232,6 +233,7 @@ class DetailTaskActivity : AppCompatActivity() {
         updateTask()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun checkFavourite() {
         binding.apply {
             if (btnFavourite.tag == R.drawable.ic_star_checked) {
@@ -245,11 +247,13 @@ class DetailTaskActivity : AppCompatActivity() {
         updateTask()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun backPressed() {
         updateTask()
         onBackPressedDispatcher.onBackPressed()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun updateTask() {
         val finishedDate: Date? = if (binding.btnFinished.tag == R.drawable.ic_circle_checked) {
             if (taskModel.finishedDate == null) {
@@ -263,13 +267,15 @@ class DetailTaskActivity : AppCompatActivity() {
 
         cancelNotification(taskModel.id)
         if (binding.etReminderDate.tag != null) {
-            if (binding.btnFinished.tag == R.drawable.ic_circle_unchecked) {
-                scheduleNotification(
-                    getString(R.string.TitleReminder),
-                    getString(R.string.MessageReminder, taskModel.name),
-                    taskModel.id,
-                    binding.etReminderDate.tag as Date
-                )
+            if (!Time.isExpiredReminderDate(binding.etReminderDate.tag as Date)) {
+                if (binding.btnFinished.tag == R.drawable.ic_circle_unchecked) {
+                    scheduleNotification(
+                        getString(R.string.TitleReminder),
+                        getString(R.string.MessageReminder, taskModel.name),
+                        taskModel.id,
+                        binding.etReminderDate.tag as Date
+                    )
+                }
             }
         }
 
@@ -334,19 +340,6 @@ class DetailTaskActivity : AppCompatActivity() {
         })
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun initNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "Notification Channel"
-            val desc = "A description of the Channel"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(AlarmNotification.CHANNEL_ID, name, importance)
-            channel.description = desc
-            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-
     @SuppressLint("ScheduleExactAlarm")
     private fun scheduleNotification(
         title: String,
@@ -355,9 +348,9 @@ class DetailTaskActivity : AppCompatActivity() {
         dateNotification: Date
     ) {
         val intent = Intent(applicationContext, AlarmNotification::class.java)
-        intent.putExtra(AlarmNotification.TITLE_EXTRA, title)
-        intent.putExtra(AlarmNotification.MESSAGE_EXTRA, message)
-        intent.putExtra("NOTIFICATION_ID", notificationId)
+        intent.putExtra(TITLE_EXTRA, title)
+        intent.putExtra(MESSAGE_EXTRA, message)
+        intent.putExtra(NOTIFICATION_ID_EXTRA, notificationId)
         val pendingIntent = PendingIntent.getBroadcast(
             applicationContext,
             notificationId,

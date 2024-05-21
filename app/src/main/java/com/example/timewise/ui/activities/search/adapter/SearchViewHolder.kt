@@ -43,6 +43,15 @@ class SearchViewHolder(view: View) : ViewHolder(view) {
                 imageFavorite.setImageResource(R.drawable.ic_star_unchecked)
                 imageFavorite.tag = R.drawable.ic_star_unchecked
             }
+
+            if (tasksModel.isFinished) {
+                imageFinished.setImageResource(R.drawable.ic_circle_checked)
+                imageFinished.tag = R.drawable.ic_circle_checked
+            } else {
+                imageFinished.setImageResource(R.drawable.ic_circle_unchecked)
+                imageFinished.tag = R.drawable.ic_circle_unchecked
+            }
+
             if (tasksModel.expirationDate != null) {
                 layoutExpiration.isVisible = true
                 tvExpiration.text = Time.toStringShortExpirationDate(tasksModel.expirationDate!!)

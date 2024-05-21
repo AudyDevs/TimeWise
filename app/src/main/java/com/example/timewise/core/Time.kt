@@ -141,6 +141,21 @@ object Time {
         return (formatDate < formatCurrent)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun isExpiredReminderDate(date: Date): Boolean {
+        val currentDate = currentDate()
+
+        val currentLocalDate =
+            currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+        val localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+
+        val formatCurrent =
+            currentLocalDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
+        val formatDate = localDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
+
+        return (formatDate < formatCurrent)
+    }
+
     fun toTimeInMillis(date: Date): Long {
         val calendar = Calendar.getInstance()
         calendar.time = date
