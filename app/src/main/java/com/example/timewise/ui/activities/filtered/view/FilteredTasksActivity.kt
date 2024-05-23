@@ -62,6 +62,7 @@ class FilteredTasksActivity : AppCompatActivity() {
         initAdapter()
         initListeners()
         initUIState()
+        initValues()
     }
 
     override fun onResume() {
@@ -71,12 +72,12 @@ class FilteredTasksActivity : AppCompatActivity() {
 
     private fun initViewModel() {
         filteredTasksViewModel.getLabels()
-        filteredTasksViewModel.filterTypes = FilterTypes.valueOf(filterType)
+        filteredTasksViewModel.filterTypes = filterType
         filteredTasksViewModel.getFilteredTasks()
     }
 
     private fun initIntent() {
-        filterType = intent?.extras?.getString("filterType") ?: FilterTypes.Today.name
+        filterType = intent?.extras?.getString("filterType") ?: FilterTypes.Today.type
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -117,6 +118,16 @@ class FilteredTasksActivity : AppCompatActivity() {
                     filteredTasksAdapter.updateListLabel(labelModel)
                 }
             }
+        }
+    }
+
+    private fun initValues() {
+        binding.etNameFilter.text = when (filterType) {
+            FilterTypes.Today.type -> FilterTypes.Today.title
+            FilterTypes.Week.type -> FilterTypes.Week.title
+            FilterTypes.Later.type -> FilterTypes.Later.title
+            FilterTypes.Expired.type -> FilterTypes.Expired.title
+            else -> FilterTypes.Today.title
         }
     }
 

@@ -100,16 +100,16 @@ class MainActivity : AppCompatActivity() {
             navigateToSearchActivity()
         }
         binding.layoutToday.setOnClickListener {
-            navigateToFilteredTasksActivity(FilterTypes.Today.name)
+            navigateToFilteredTasksActivity(FilterTypes.Today.type)
         }
         binding.layoutWeek.setOnClickListener {
-            navigateToFilteredTasksActivity(FilterTypes.Week.name)
+            navigateToFilteredTasksActivity(FilterTypes.Week.type)
         }
         binding.layoutLater.setOnClickListener {
-            navigateToFilteredTasksActivity(FilterTypes.Later.name)
+            navigateToFilteredTasksActivity(FilterTypes.Later.type)
         }
         binding.layoutExpired.setOnClickListener {
-            navigateToFilteredTasksActivity(FilterTypes.Expired.name)
+            navigateToFilteredTasksActivity(FilterTypes.Expired.type)
         }
     }
 

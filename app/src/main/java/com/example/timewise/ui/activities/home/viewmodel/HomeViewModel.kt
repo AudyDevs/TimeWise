@@ -56,13 +56,13 @@ class HomeViewModel @Inject constructor(
     fun getNumberTasks() {
         viewModelScope.launch {
             _tasksToday.value =
-                withContext(Dispatchers.IO) { getNumberFilteredTasksUseCase(FilterTypes.Today) }
+                withContext(Dispatchers.IO) { getNumberFilteredTasksUseCase(FilterTypes.Today.type) }
             _tasksWeek.value =
-                withContext(Dispatchers.IO) { getNumberFilteredTasksUseCase(FilterTypes.Week) }
+                withContext(Dispatchers.IO) { getNumberFilteredTasksUseCase(FilterTypes.Week.type) }
             _tasksLater.value =
-                withContext(Dispatchers.IO) { getNumberFilteredTasksUseCase(FilterTypes.Later) }
+                withContext(Dispatchers.IO) { getNumberFilteredTasksUseCase(FilterTypes.Later.type) }
             _tasksExpired.value =
-                withContext(Dispatchers.IO) { getNumberFilteredTasksUseCase(FilterTypes.Expired) }
+                withContext(Dispatchers.IO) { getNumberFilteredTasksUseCase(FilterTypes.Expired.type) }
         }
     }
 }

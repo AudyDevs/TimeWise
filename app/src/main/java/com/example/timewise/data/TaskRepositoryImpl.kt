@@ -51,32 +51,32 @@ class TaskRepositoryImpl @Inject constructor(private val taskDao: TaskDao) : Tas
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override suspend fun getNumberFilteredTasks(filterTypes: FilterTypes): Int {
+    override suspend fun getNumberFilteredTasks(filterTypes: String): Int {
         var number = 0
         val response = taskDao.getAllTasks()
         val responseFiltered = response.filter { !it.isFinished }
         responseFiltered.forEach { taskEntity ->
             if (taskEntity.expirationDate != null) {
                 when (filterTypes) {
-                    FilterTypes.Today -> {
+                    FilterTypes.Today.type -> {
                         if (Time.isCurrentDate(taskEntity.expirationDate)) {
                             number += 1
                         }
                     }
 
-                    FilterTypes.Week -> {
+                    FilterTypes.Week.type -> {
                         if (Time.isWeekDate(taskEntity.expirationDate)) {
                             number += 1
                         }
                     }
 
-                    FilterTypes.Later -> {
+                    FilterTypes.Later.type -> {
                         if (Time.isLaterDate(taskEntity.expirationDate)) {
                             number += 1
                         }
                     }
 
-                    FilterTypes.Expired -> {
+                    FilterTypes.Expired.type -> {
                         if (Time.isExpiredDate(taskEntity.expirationDate)) {
                             number += 1
                         }
@@ -88,32 +88,32 @@ class TaskRepositoryImpl @Inject constructor(private val taskDao: TaskDao) : Tas
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override suspend fun getFilteredTasks(filterTypes: FilterTypes): List<TaskModel> {
+    override suspend fun getFilteredTasks(filterTypes: String): List<TaskModel> {
         val listTaskEntity = mutableListOf<TaskEntity>()
         val response = taskDao.getAllTasks()
         val responseFiltered = response.filter { !it.isFinished }
         responseFiltered.forEach { taskEntity ->
             if (taskEntity.expirationDate != null) {
                 when (filterTypes) {
-                    FilterTypes.Today -> {
+                    FilterTypes.Today.type -> {
                         if (Time.isCurrentDate(taskEntity.expirationDate)) {
                             listTaskEntity.add(taskEntity)
                         }
                     }
 
-                    FilterTypes.Week -> {
+                    FilterTypes.Week.type -> {
                         if (Time.isWeekDate(taskEntity.expirationDate)) {
                             listTaskEntity.add(taskEntity)
                         }
                     }
 
-                    FilterTypes.Later -> {
+                    FilterTypes.Later.type -> {
                         if (Time.isLaterDate(taskEntity.expirationDate)) {
                             listTaskEntity.add(taskEntity)
                         }
                     }
 
-                    FilterTypes.Expired -> {
+                    FilterTypes.Expired.type -> {
                         if (Time.isExpiredDate(taskEntity.expirationDate)) {
                             listTaskEntity.add(taskEntity)
                         }

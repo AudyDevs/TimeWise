@@ -31,7 +31,7 @@ class FilteredTasksViewModel @Inject constructor(
     private var _labels = MutableStateFlow<List<LabelModel>>(emptyList())
     var labels: StateFlow<List<LabelModel>> = _labels
 
-    var filterTypes: FilterTypes = FilterTypes.Today
+    var filterTypes: String = FilterTypes.Today.type
 
     fun getFilteredTasks() {
         viewModelScope.launch {
