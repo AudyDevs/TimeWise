@@ -127,7 +127,8 @@ class TaskRepositoryImpl @Inject constructor(private val taskDao: TaskDao) : Tas
     override suspend fun getSearchedTasks(search: String): List<TaskModel> {
         return if (search.isNotEmpty()) {
             val response = taskDao.getAllTasks()
-            val responseFiltered = response.filter { it.name.contains(search) }
+            val responseFiltered =
+                response.filter { it.name.uppercase().contains(search.uppercase()) }
             responseFiltered.map { it.toDomain() }
         } else {
             emptyList()

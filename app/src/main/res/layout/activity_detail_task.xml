@@ -99,7 +99,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/primary" />
 
-        <TextView
+        <EditText
             android:id="@+id/etNameTask"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

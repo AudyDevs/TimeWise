@@ -84,12 +84,10 @@ object Time {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun isCurrentDate(date: Date): Boolean {
-        val firstLocalDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+        val firstLocalDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
         val currentLocalDate =
-            currentDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
-        val formatDate = firstLocalDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-        val formatCurrentDate = currentLocalDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-        return formatCurrentDate.compareTo(formatDate) == 0
+            currentDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+        return firstLocalDate.compareTo(currentLocalDate) == 0
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -98,17 +96,12 @@ object Time {
         val finalWeekDate = plusDaysDate(currentDate(), 8)
 
         val initialWeekLocalDate =
-            initialWeekDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+            initialWeekDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
         val finalWeekLocalDate =
-            finalWeekDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
-        val localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+            finalWeekDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+        val localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
 
-        val formatWeekInitial =
-            initialWeekLocalDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-        val formatWeekFinal = finalWeekLocalDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-        val formatDate = localDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-
-        return (formatWeekInitial < formatDate) and (formatDate < formatWeekFinal)
+        return initialWeekLocalDate.isBefore(localDate) and finalWeekLocalDate.isAfter(localDate)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -116,14 +109,10 @@ object Time {
         val initialDate = plusDaysDate(currentDate(), 7)
 
         val initialLocalDate =
-            initialDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
-        val localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+            initialDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+        val localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
 
-        val formatInitial =
-            initialLocalDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-        val formatDate = localDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-
-        return (formatInitial < formatDate)
+        return initialLocalDate.isBefore(localDate)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -131,14 +120,10 @@ object Time {
         val currentDate = currentDate()
 
         val currentLocalDate =
-            currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
-        val localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+            currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+        val localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
 
-        val formatCurrent =
-            currentLocalDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-        val formatDate = localDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-
-        return (formatDate < formatCurrent)
+        return localDate.isBefore(currentLocalDate)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -149,11 +134,7 @@ object Time {
             currentDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
         val localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
 
-        val formatCurrent =
-            currentLocalDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
-        val formatDate = localDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
-
-        return (formatDate < formatCurrent)
+        return localDate.isBefore(currentLocalDate)
     }
 
     fun toTimeInMillis(date: Date): Long {

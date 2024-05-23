@@ -102,6 +102,7 @@ class DetailTaskActivity : AppCompatActivity() {
                     if (it != null) {
                         taskModel = it
                         detailTaskViewModel.getLabelID(taskModel.idLabel)
+                        changeUIValuesTask()
                     }
                 }
             }
@@ -111,15 +112,15 @@ class DetailTaskActivity : AppCompatActivity() {
                 detailTaskViewModel.label.collect {
                     if (it != null) {
                         labelModel = it
-                        changeUIValues()
-                        changeUIColor()
+                        changeUIColorLabel()
+                        changeUIValuesLabel()
                     }
                 }
             }
         }
     }
 
-    private fun changeUIColor() {
+    private fun changeUIColorLabel() {
         binding.apply {
             toolbar.setBackgroundColor(labelModel.backcolor)
             etNameLabel.setTextColor(labelModel.textColor)
@@ -147,10 +148,9 @@ class DetailTaskActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun changeUIValues() {
+    private fun changeUIValuesLabel() {
         binding.apply {
             etNameLabel.text = labelModel.name
-            etNameTask.text = taskModel.name
             if (taskModel.expirationDate != null) {
                 etExpirationDate.setText(Time.toStringExpirationDate(taskModel.expirationDate!!))
                 etExpirationDate.tag = taskModel.expirationDate
@@ -160,6 +160,13 @@ class DetailTaskActivity : AppCompatActivity() {
                 etReminderDate.setText(Time.toStringReminderDate(taskModel.reminderDate!!))
                 etReminderDate.tag = taskModel.reminderDate
             }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun changeUIValuesTask() {
+        binding.apply {
+            etNameTask.setText(taskModel.name)
             etDetails.setText(taskModel.details)
 
             etCreateDate.text = ""
