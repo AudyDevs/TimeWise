@@ -1,6 +1,5 @@
 package com.example.timewise.ui.activities.tasks.viewmodel
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.timewise.dispatcher.DispatcherRule
 import com.example.timewise.dispatcher.TestDispatchers
 import com.example.timewise.domain.usecase.label.DeleteLabelUseCase
@@ -24,20 +23,15 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.runs
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class TasksViewModelTest {
 
     @get:Rule
     val dispatcherRule = DispatcherRule()
-
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @MockK
     private lateinit var getLabelIdUseCase: GetLabelIdUseCase

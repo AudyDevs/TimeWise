@@ -48,6 +48,13 @@ object TimeWiseMotherObject {
         LabelModel(4, 4, "LabelName4Test", 4, 4)
     )
 
+    val anyListOfLabelEntity = listOf(
+        LabelEntity(1, 1, "LabelName1Test", 1, 1),
+        LabelEntity(2, 2, "LabelName2Test", 2, 2),
+        LabelEntity(3, 3, "LabelName3Test", 3, 3),
+        LabelEntity(4, 4, "LabelName4Test", 4, 4)
+    )
+
     val anyListOfTaskModel = listOf(
         TaskModel(
             1,
@@ -98,6 +105,58 @@ object TimeWiseMotherObject {
             anyDate
         )
     )
+
+    val anyListOfTaskEntity = listOf(
+        TaskEntity(
+            1,
+            1,
+            "TaskName1Test",
+            false,
+            anyDate,
+            false,
+            anyDate,
+            anyDate,
+            "TaskDetail1Test",
+            anyDate
+        ),
+        TaskEntity(
+            2,
+            2,
+            "TaskName2Test",
+            false,
+            anyDate,
+            false,
+            anyDate,
+            anyDate,
+            "TaskDetail2Test",
+            anyDate
+        ),
+        TaskEntity(
+            3,
+            3,
+            "TaskName3Test",
+            false,
+            anyDate,
+            false,
+            anyDate,
+            anyDate,
+            "TaskDetail3Test",
+            anyDate
+        ),
+        TaskEntity(
+            4,
+            4,
+            "TaskName4Test",
+            false,
+            anyDate,
+            false,
+            anyDate,
+            anyDate,
+            "TaskDetail4Test",
+            anyDate
+        )
+    )
+
     const val ANY_NUMBER_OF_FILTERED_TASKS = 1
 
     val anyTodayFilteredTasks = FilterTypes.Today.type

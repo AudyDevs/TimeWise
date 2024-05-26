@@ -1,6 +1,5 @@
 package com.example.timewise.ui.activities.home.viewmodel
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.timewise.core.FilterTypes
 import com.example.timewise.dispatcher.DispatcherRule
 import com.example.timewise.dispatcher.TestDispatchers
@@ -16,20 +15,15 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.runs
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentalCoroutinesApi
 class HomeViewModelTest {
 
     @get:Rule
     val dispatcherRule = DispatcherRule()
-
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @MockK
     private lateinit var getLabelsUseCase: GetLabelsUseCase
