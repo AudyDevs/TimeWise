@@ -2,13 +2,13 @@ package com.example.timewise.ui.activities.home.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.timewise.core.DispatcherProvider
 import com.example.timewise.core.FilterTypes
 import com.example.timewise.domain.model.LabelModel
 import com.example.timewise.domain.usecase.filteredtasks.GetNumberFilteredTasksUseCase
 import com.example.timewise.domain.usecase.label.GetLabelsUseCase
 import com.example.timewise.domain.usecase.label.InsertLabelUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -17,6 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val dispatcherProvider: DispatcherProvider,
     private val getLabelsUseCase: GetLabelsUseCase,
     private val insertLabelUseCase: InsertLabelUseCase,
     private val getNumberFilteredTasksUseCase: GetNumberFilteredTasksUseCase
@@ -40,13 +41,13 @@ class HomeViewModel @Inject constructor(
 
     fun getLabels() {
         viewModelScope.launch {
-            _labels.value = withContext(Dispatchers.IO) { getLabelsUseCase() }
+            _labels.value = withContext(dispatcherProvider.io) { getLabelsUseCase() }
         }
     }
 
     fun insertLabel(label: LabelModel) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcherProvider.io) {
                 insertLabelUseCase.invoke(label)
                 getLabels()
             }
@@ -56,13 +57,13 @@ class HomeViewModel @Inject constructor(
     fun getNumberTasks() {
         viewModelScope.launch {
             _tasksToday.value =
-                withContext(Dispatchers.IO) { getNumberFilteredTasksUseCase(FilterTypes.Today.type) }
+                withContext(dispatcherProvider.io) { getNumberFilteredTasksUseCase(FilterTypes.Today.type) }
             _tasksWeek.value =
-                withContext(Dispatchers.IO) { getNumberFilteredTasksUseCase(FilterTypes.Week.type) }
+                withContext(dispatcherProvider.io) { getNumberFilteredTasksUseCase(FilterTypes.Week.type) }
             _tasksLater.value =
-                withContext(Dispatchers.IO) { getNumberFilteredTasksUseCase(FilterTypes.Later.type) }
+                withContext(dispatcherProvider.io) { getNumberFilteredTasksUseCase(FilterTypes.Later.type) }
             _tasksExpired.value =
-                withContext(Dispatchers.IO) { getNumberFilteredTasksUseCase(FilterTypes.Expired.type) }
+                withContext(dispatcherProvider.io) { getNumberFilteredTasksUseCase(FilterTypes.Expired.type) }
         }
     }
 }

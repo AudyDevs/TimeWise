@@ -2,6 +2,7 @@ package com.example.timewise.ui.activities.detail.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.timewise.core.DispatcherProvider
 import com.example.timewise.domain.model.LabelModel
 import com.example.timewise.domain.model.TaskModel
 import com.example.timewise.domain.usecase.label.GetLabelIdUseCase
@@ -11,7 +12,6 @@ import com.example.timewise.domain.usecase.task.UpdateTaskFavouriteUseCase
 import com.example.timewise.domain.usecase.task.UpdateTaskFinishedUseCase
 import com.example.timewise.domain.usecase.task.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -20,6 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailTaskViewModel @Inject constructor(
+    private val dispatcherProvider: DispatcherProvider,
     private val getLabelIdUseCase: GetLabelIdUseCase,
     private val getTaskIdUseCase: GetTaskIdUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
@@ -36,19 +37,19 @@ class DetailTaskViewModel @Inject constructor(
 
     fun getLabelID(id: Int) {
         viewModelScope.launch {
-            _label.value = withContext(Dispatchers.IO) { getLabelIdUseCase(id) }
+            _label.value = withContext(dispatcherProvider.io) { getLabelIdUseCase(id) }
         }
     }
 
     fun getTaskID(id: Int) {
         viewModelScope.launch {
-            _task.value = withContext(Dispatchers.IO) { getTaskIdUseCase(id) }
+            _task.value = withContext(dispatcherProvider.io) { getTaskIdUseCase(id) }
         }
     }
 
     fun updateTask(task: TaskModel) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcherProvider.io) {
                 updateTaskUseCase.invoke(task)
                 getTaskID(task.id)
             }
@@ -57,7 +58,7 @@ class DetailTaskViewModel @Inject constructor(
 
     fun deleteTask(task: TaskModel) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcherProvider.io) {
                 deleteTaskUseCase.invoke(task)
             }
         }
@@ -65,7 +66,7 @@ class DetailTaskViewModel @Inject constructor(
 
     fun updateTaskFinished(id: Int, isFinished: Boolean) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcherProvider.io) {
                 updateTaskFinishedUseCase.invoke(id, isFinished)
                 getTaskID(id)
             }
@@ -74,7 +75,7 @@ class DetailTaskViewModel @Inject constructor(
 
     fun updateTaskFavourite(id: Int, isFavourite: Boolean) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatcherProvider.io) {
                 updateTaskFavouriteUseCase.invoke(id, isFavourite)
                 getTaskID(id)
             }

@@ -145,6 +145,7 @@ class TasksActivity : AppCompatActivity() {
                         labelModel = it
                         changeUIValues()
                         changeUIColor()
+                        tasksViewModel.idLabel = labelModel.id
                         tasksViewModel.getTasks()
                     }
                 }
