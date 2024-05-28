@@ -1,7 +1,7 @@
 <h1 align="center">Time Wise</h1>
 
 <p align="center">  
-  Descripción de la aplicacion
+  Aplicación que permite organizar tareas pendientes a realizar. Clasificación por etiquetas, fechas de vencimiento y recordatorios con notificaciones push. Control de tareas pendientes por fecha de vencimiento: Tareas para hoy, esta semana, más tarde o expiradas. Con el buscador se permite localizar cualquier tarea, finalizada o no.
 </p>
 <p align="center">   
   Aplicicación Android basada en la arquitectura MVVM desarrollada con DaggerHilt, StateFlows, ViewModels, Room, Notificaciones Push y Testing
